@@ -17,7 +17,11 @@
         <tr th:each="list :${list}">
             <td>[[${list.boardId}]]</td>
             <td>[[${list.name}]]</td>
-            <td>[[${list.title}]]</td>
+            <td>
+                <a th:href="@{/board/view(boardId=${list.boardId})}">
+                    [[${list.title}]]
+                </a>
+            </td>
             <td>[[${list.read}]]</td>
         </tr>
     </table>
