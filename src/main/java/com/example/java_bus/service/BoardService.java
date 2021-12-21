@@ -23,4 +23,8 @@ public class BoardService {
     }
 
     public Board getBoard(Long boardId){return boardMapper.getBoard(boardId);}
+
+    public void uploadBoard(Board board){
+        boardMapper.uploadBoard(board);
+    }
 }

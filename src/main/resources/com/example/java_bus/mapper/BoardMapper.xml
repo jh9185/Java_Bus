@@ -18,4 +18,10 @@
             *
         FROM tbl_board where boardId=#{boardId};
     </select>
+
+    <insert id="uploadBoard" parameterType="com.example.java_bus.domain.Board">
+        INSERT INTO tbl_board (title, content, name)
+        VALUES
+            (#{title}, #{content}, #{name});
+    </insert>
 </mapper>
