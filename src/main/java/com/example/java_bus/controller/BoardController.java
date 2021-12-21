@@ -45,9 +45,21 @@ public class BoardController {
     public String uploadBoardForm(){
         return "/boards/upload";
     }
+
     @PostMapping("/upload")
     public String uploadBoard(Board board){
         service.uploadBoard(board);
+        return "redirect:/board/main";
+    }
+
+    @PostMapping("/update")
+    public String updateBoard(Board board){
+        service.updateBoard(board);
+        return "redirect:/board/main";
+    }
+    @PostMapping("/delete")
+    public String deleteBoard(Long boardId){
+        service.deleteBoard(boardId);
         return "redirect:/board/main";
     }
 }
