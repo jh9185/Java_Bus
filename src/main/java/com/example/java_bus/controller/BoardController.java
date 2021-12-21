@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/board/*")
+@RequestMapping("/main/board/*")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -29,7 +29,7 @@ public class BoardController {
         return "/boards/hello";
     }
 
-    @GetMapping("/main")
+    @GetMapping({"/main", "/"})
     public String main(Model model){
         model.addAttribute("list", service.boardList());
         return "/boards/main";

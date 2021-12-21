@@ -7,10 +7,6 @@
 </head>
 <body>
 <div class="contianer">
-    <form th:action="@{upload}" method="get">
-
-        <button type="submit">글쓰기</button>
-    </form>
     <table class="table table-hover">
         <thead>
         <th>글번호</th>
@@ -29,6 +25,10 @@
             <td>[[${list.read}]]</td>
         </tr>
     </table>
+    <form th:action="@{upload}" method="get">
+
+        <button type="submit">글쓰기</button>
+    </form>
 </div>
 
 </body>
