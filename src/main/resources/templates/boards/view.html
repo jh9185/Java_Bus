@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>title</title>
+</head>
+<body>
+<div class="contianer">
+    <p>글번호 : [[${view.boardId}]]</p>
+    <p>제목 : [[${view.title}]]</p>
+    <p>작성자 : [[${view.name}]]</p>
+    내용 : <textarea class="form-control" th:text="${view.content}"></textarea>
+    <p>조회수 : [[${view.read}]]</p>
+
+</div>
+
+</body>
+</html>
