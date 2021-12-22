@@ -1,6 +1,10 @@
 # Java_Bus
-버스도착정보프로젝트(Spring)
-Studio - Intellij 
-jdk-17.0.1
-Java Spring, Gradle
-h2, jdbc, lombok, thymeleaf
+<head>
+  <h6>버스도착정보프로젝트(Spring)</h6>
+</head>
+<body>
+  <p>Studio - Intellij </p>
+  <p>jdk-17.0.1</p>
+  <p>Java Spring, Gradle</p>
+  <p>h2, jdbc, lombok, thymeleaf</p>
+</body>
