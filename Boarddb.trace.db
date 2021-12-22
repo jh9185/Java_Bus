@@ -4,3 +4,19 @@ CREATE TABLE tbl_board( boardId Long auto_increment, title varchar (30) not null
 2021-12-21 18:02:13 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TBL_BOARD" already exists; SQL statement:
 CREATE TABLE tbl_board( boardId Long auto_increment, title varchar (30) not null , content varchar (30) not null , name varchar (30) not null , primary key(boardId) ) [42101-200]
+2021-12-22 09:33:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TBL_BOARD" already exists; SQL statement:
+CREATE TABLE tbl_board( boardId Long auto_increment, title varchar (30) not null , content varchar (30) not null , name varchar (30) not null , primary key(boardId) ) [42101-200]
+2021-12-22 09:36:25 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE TBL_LOGIN(
+LOGINID LONG AUTO_INCREMNET[*],
+ID VARCHAR (30) NOT NULL ,
+PASSWORD VARCHAR (30) NOT NULL ,
+PRIMARY KEY(LOGINID)
+)"; expected "RAW, (, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, COMMENT, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE tbl_login(
+LoginId Long auto_incremnet,
+id varchar (30) not null ,
+password varchar (30) not null ,
+primary key(LoginId)
+) [42001-200]
