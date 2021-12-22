@@ -27,7 +27,13 @@
 
     <update id="updateBoard" parameterType="com.example.java_bus.domain.Board">
         UPDATE tbl_board
-        SET title =#{title}, content=#{content}, read=#{read}
+        SET title=#{title}, content=#{content}, name=#{name}, read=#{read}
+        WHERE boardId=#{boardId};
+    </update>
+
+    <update id="updateViewBoard" parameterType="com.example.java_bus.domain.Board">
+        UPDATE tbl_board
+        SET read=#{read}
         WHERE boardId=#{boardId};
     </update>
 

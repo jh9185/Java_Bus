@@ -33,6 +33,12 @@ public class BoardService {
     public void updateBoard(Board board){
         boardMapper.updateBoard(board);
     }
+
+    @Transactional
+    public void updateViewBoard(Board board){
+        boardMapper.updateViewBoard(board);
+    }
+
     @Transactional
     public void deleteBoard(Long boardId){
         boardMapper.deleteBoard(boardId);

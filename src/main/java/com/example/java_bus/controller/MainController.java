@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping(value = {"/", "/main"})
 @RequiredArgsConstructor
 public class MainController {
 
@@ -18,11 +18,11 @@ public class MainController {
     @GetMapping("")
     public String Main(Model model){
         model.addAttribute("list", service.boardList());
-        return "bootstrap/index";
+        return "/bootstrap/index";
     }
 
     @PostMapping("")
     public String mainBoard(){
-        return "redirect:/bootstrap/index";
+        return "redirect:/index";
     }
 }

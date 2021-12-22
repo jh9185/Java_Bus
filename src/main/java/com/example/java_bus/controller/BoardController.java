@@ -61,6 +61,12 @@ public class BoardController {
         service.updateBoard(board);
         return "redirect:/main";
     }
+    @PostMapping("/updateview")
+    public String updateViewBoard(Board board){
+        service.updateViewBoard(board);
+        return "redirect:/main";
+    }
+
     @PostMapping("/delete")
     public String deleteBoard(Long boardId){
         service.deleteBoard(boardId);
