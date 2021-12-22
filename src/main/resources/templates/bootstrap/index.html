@@ -180,12 +180,16 @@
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
+                                    <form th:action="@{/board/upload}" method="get">
+
+                                        <button type="submit">글쓰기</button>
+                                    </form>
                                         <tr>
                                             <th>글번호</th>
                                             <th>작성자</th>
                                             <th>제목</th>
                                             <th>조회수</th>
-                                            <th>Start date</th>
+                                            <th>글작성시간</th>
                                             <th>Salary</th>
                                         </tr>
                                     </thead>

@@ -16,21 +16,45 @@
 </head>
 <body>
 <div class="container">
-    <p>글번호 : [[${view.boardId}]]</p>
-    <p id="title">제목 : [[${view.title}]]</p>
-    <p>작성자 : [[${view.name}]]</p>
+    글번호 :
+    <div>
+        <textarea readonly="readonly"
+                  class="form-control"
+                  th:text="${view.boardId}">
+        </textarea>
+    </div>
+    조회수 :
+    <div>
+        <textarea readonly="readonly"
+                  class="form-control"
+                  th:text="${view.read}">
+        </textarea>
+    </div>
+    제목 :
+    <div>
+        <textarea readonly="readonly"
+                  class="form-control"
+                  th:text="${view.title}">
+        </textarea>
+    </div>
+    작성자 :
+    <div>
+        <textarea readonly="readonly"
+                  class="form-control"
+                  th:text="${view.name}">
+        </textarea>
+    </div>
     내용 :
     <div id="content">
-<textarea readonly="readonly"
-          class="form-control"
-          th:text="${view.content}">
-
-</textarea>
-
+        <textarea readonly="readonly"
+            class="form-control"
+            th:text="${view.content}">
+        </textarea>
     </div>
 
     <button id="deleteBtn" class="btn btn-danger btn-sm float-right">삭제</button>
     <button id="updateBtn" class="btn btn-info btn-sm float-right">수정</button>
+    <button id="mainBtn" class="btn btn-secondary btn-sm float-right">목록</button>
 
     <form id="form" th:action="@{/}" method="post">
     </form>
@@ -41,6 +65,17 @@
     $(document).on('ready', function (e) {
         var form= $("#form");
         var boardId= [[${view.boardId}]];
+        var title = [[${view.title}]];
+        var content = [[${view.content}]];
+        var read = [[${view.read}]] +1;
+        $(document).on('click', '#mainBtn', function (e) {
+            $('#form').attr("action","update");
+            form.append("<input type='hidden' name='boardId' value='"+boardId+"'>");
+            form.append("<input type='hidden' name='title' value='"+title+"'>");
+            form.append("<input type='hidden' name='content' value='"+content+"'>");
+            form.append("<input type='hidden' name='read' value='"+read+"'>");
+            form.submit();
+        })
         $(document).on('click', '#deleteBtn', function (e) {
             $('#form').attr("action","delete");
             form.append("<input type='hidden' name='boardId' value='"+boardId+"'>");

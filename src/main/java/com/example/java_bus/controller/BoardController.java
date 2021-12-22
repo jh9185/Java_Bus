@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("/board/*")
 @RequiredArgsConstructor
@@ -32,7 +35,7 @@ public class BoardController {
     @GetMapping({"/main", "/"})
     public String main(Model model){
         model.addAttribute("list", service.boardList());
-        return "/boards/main";
+        return "redirect:/main";
     }
 
     @GetMapping("/view")
@@ -48,18 +51,19 @@ public class BoardController {
 
     @PostMapping("/upload")
     public String uploadBoard(Board board){
+        board.setRead(0);
         service.uploadBoard(board);
-        return "redirect:/board/main";
+        return "redirect:/main";
     }
 
     @PostMapping("/update")
     public String updateBoard(Board board){
         service.updateBoard(board);
-        return "redirect:/board/main";
+        return "redirect:/main";
     }
     @PostMapping("/delete")
     public String deleteBoard(Long boardId){
         service.deleteBoard(boardId);
-        return "redirect:/board/main";
+        return "redirect:/main";
     }
 }

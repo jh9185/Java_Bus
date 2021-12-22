@@ -13,7 +13,7 @@ public class Board {
     private String title;
     private String content;
     private String name;
-    private LocalDateTime createData;
+    private LocalDateTime createdate;
     private int read;
     private Long memberId;
 }

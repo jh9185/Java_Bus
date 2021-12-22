@@ -20,14 +20,14 @@
     </select>
 
     <insert id="uploadBoard" parameterType="com.example.java_bus.domain.Board">
-        INSERT INTO tbl_board (title, content, name)
+        INSERT INTO tbl_board (title, content, name, read)
         VALUES
-            (#{title}, #{content}, #{name});
+            (#{title}, #{content}, #{name}, #{read});
     </insert>
 
     <update id="updateBoard" parameterType="com.example.java_bus.domain.Board">
         UPDATE tbl_board
-        SET title =#{title}, content=#{content}
+        SET title =#{title}, content=#{content}, read=#{read}
         WHERE boardId=#{boardId};
     </update>
 
