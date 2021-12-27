@@ -1,5 +1,8 @@
 package com.example.java_bus.service;
 
+import com.example.java_bus.domain.Board;
+import com.example.java_bus.domain.Busdata;
+import com.example.java_bus.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -10,10 +13,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 @Service
 public class BusdataService {
+//    private final BusdataMapper BusdataMapper;
     String BusData;
+
+//    public List<Busdata> busdataList() {
+//        return BusdataMapper.();
+//    }
 
     public void LoadData() throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll"); /*URL*/

@@ -22,6 +22,7 @@ public class MainController {
     @GetMapping("")
     public String Main(Model model) throws IOException {
         model.addAttribute("list", service.boardList());
+        //model.addAttribute("Busstop", Busservice.get)
         return "/bootstrap/index";
     }
 
