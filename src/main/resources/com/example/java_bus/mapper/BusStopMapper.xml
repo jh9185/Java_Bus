@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.java_bus.mapper.BusstopMapper">
+
+    <select id="getList" resultType="com.example.java_bus.domain.Busstop">
+        SELECT
+        *
+        FROM tbl_bus;
+    </select>
+
+</mapper>

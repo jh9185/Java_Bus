@@ -18,28 +18,30 @@ public class BoardService {
         return boardMapper.boardCount();
     }
 
+    // 게시글 갯수 가져오기
     public List<Board> boardList() {
         return boardMapper.getList();
     }
 
+    // 내용 가져오기
     public Board getBoard(Long boardId){return boardMapper.getBoard(boardId);}
 
-    @Transactional
+    @Transactional // 등록
     public void uploadBoard(Board board){
         boardMapper.uploadBoard(board);
     }
 
-    @Transactional
+    @Transactional // 수정
     public void updateBoard(Board board){
         boardMapper.updateBoard(board);
     }
 
-    @Transactional
+    @Transactional // 뷰 증가
     public void updateViewBoard(Board board){
         boardMapper.updateViewBoard(board);
     }
 
-    @Transactional
+    @Transactional // 삭제
     public void deleteBoard(Long boardId){
         boardMapper.deleteBoard(boardId);
     }

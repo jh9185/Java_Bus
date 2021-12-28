@@ -1,11 +1,11 @@
 package com.example.java_bus.mapper;
 
-import com.example.java_bus.domain.Board;
+import com.example.java_bus.domain.Busstop;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface BusdataMapper {
-
+public interface BusstopMapper {
+    List<Busstop> getList();
 }

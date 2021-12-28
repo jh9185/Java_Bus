@@ -15,7 +15,8 @@ import java.util.List;
 public class LoginService {
     private final LoginMapper loginMapper;
 
-    public int boardCount(){
-        return loginMapper.LoginCount();
-    }
+    // 가입
+    // 조회
+    // 탈퇴
+    // 로그인 여부
 }

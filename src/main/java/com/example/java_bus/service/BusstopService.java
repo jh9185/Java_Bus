@@ -1,29 +1,30 @@
 package com.example.java_bus.service;
 
-import com.example.java_bus.domain.Board;
-import com.example.java_bus.domain.Busdata;
-import com.example.java_bus.mapper.BoardMapper;
+import com.example.java_bus.domain.Busstop;
+import com.example.java_bus.mapper.BusstopMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
 @Service
-public class BusdataService {
-//    private final BusdataMapper BusdataMapper;
-    String BusData;
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class BusstopService {
+    private final BusstopMapper busdataMapper;
 
-//    public List<Busdata> busdataList() {
-//        return BusdataMapper.();
-//    }
+    public List<Busstop> busdataList() {
+        return busdataMapper.getList();
+    }
 
+    // 데이터 가져오기
     public void LoadData() throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D"); /*Service Key*/
@@ -46,11 +47,7 @@ public class BusdataService {
         }
         rd.close();
         conn.disconnect();
-        BusData = sb.toString();
-        System.out.println(BusData);
+        System.out.println(sb.toString());
     }
 
-    public String ViewData() {
-        return BusData;
-    }
 }

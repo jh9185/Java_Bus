@@ -9,8 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Busdata {
-    private Long BusId;
-    private Long x;
-    private Long y;
+public class Busstop {
+    private Long number;
+    private String name;
+    private float x;
+    private float y;
 }

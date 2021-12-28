@@ -1,7 +1,7 @@
 package com.example.java_bus.controller;
 
 import com.example.java_bus.service.BoardService;
-import com.example.java_bus.service.BusdataService;
+import com.example.java_bus.service.BusstopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class MainController {
 
     private final BoardService service;
-    private final BusdataService Busservice;
+    private final BusstopService Busservice;
 
     @GetMapping("")
     public String Main(Model model) throws IOException {
         model.addAttribute("list", service.boardList());
-        //model.addAttribute("Busstop", Busservice.get)
-        return "/bootstrap/index";
+        model.addAttribute("busstop", Busservice.busdataList());
+        return "bootstrap/index";
     }
 
     @PostMapping("")
