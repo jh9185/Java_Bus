@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Login {
-    private Long LoginId;
+public class Member {
+    private Long membernumber;
+    private Long id;
     private String password;
 }

@@ -16,13 +16,13 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final BoardService service;
-    private final BusstopService Busservice;
+    private final BoardService boradservice;
+    private final BusstopService busservice;
 
     @GetMapping("")
     public String Main(Model model) throws IOException {
-        model.addAttribute("list", service.boardList());
-        model.addAttribute("busstop", Busservice.busdataList());
+        model.addAttribute("list", boradservice.boardList());
+        model.addAttribute("busstop", busservice.busdataList());
         return "bootstrap/index";
     }
 

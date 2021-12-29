@@ -20,6 +20,7 @@ import java.util.List;
 public class BusstopService {
     private final BusstopMapper busdataMapper;
 
+    //DB 정류소 가져오기
     public List<Busstop> busdataList() {
         return busdataMapper.getList();
     }

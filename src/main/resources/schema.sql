@@ -1,9 +1,9 @@
 
-CREATE TABLE tbl_login(
-LoginId Long auto_increment,
+CREATE TABLE tbl_member(
+membernumber Long auto_increment,
 id varchar (30) not null ,
 password varchar (30) not null ,
-primary key(LoginId)
+primary key(membernumber)
 );
 
 CREATE TABLE tbl_board(

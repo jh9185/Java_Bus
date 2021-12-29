@@ -1,19 +1,20 @@
 package com.example.java_bus.service;
 
-import com.example.java_bus.domain.Board;
-import com.example.java_bus.mapper.BoardMapper;
-import com.example.java_bus.mapper.LoginMapper;
+import com.example.java_bus.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class LoginService {
-    private final LoginMapper loginMapper;
+public class MemberService {
+    private final MemberMapper memberMapper;
+
+    //회원 수 조회
+    public int memberCount(){
+        return memberMapper.MemberCount();
+    }
 
     // 가입
     // 조회
