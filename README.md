@@ -7,4 +7,5 @@
   <p>jdk-17.0.1</p>
   <p>Java Spring, Gradle</p>
   <p>h2, jdbc, lombok, thymeleaf</p>
+  <p>html 템플릿 https://startbootstrap.com/template/sb-admin </
 </body>
