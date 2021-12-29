@@ -2,64 +2,109 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+    var areaArr = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
+    var infoWindows = new Array(); // 정보 창 배열
+    // areaArr.push(
+    //     /*지역구 이름*/			/*위도*/					/*경도*/
+    //     {location : '강남' , lat : '37.4959854' , lng : '127.0664091'},  // 강남구 중심좌표
+    //     {location : '강동' , lat : '37.5492077' , lng : '127.1464824'},  // 강동구 중심좌표
+    //     {location : '강북' , lat : '37.6469954' , lng : '127.0147158'},  // 강북구 중심좌표
+    //     {location : '강서' , lat : '37.5657617' , lng : '126.8226561'},  // 강서구 중심좌표
+    //     {location : '관악' , lat : '37.4603732' , lng : '126.9536086'},  // 관악구 중심좌표
+    //     {location : '광진' , lat : '37.5574120' , lng : '127.0796211'},  // 광진구 중심좌표
+    //     {location : '구로' , lat : '37.4954856' , lng : '126.858121' },  // 구로구 중심좌표
+    //     {location : '금천' , lat : '37.4600969' , lng : '126.9001546'},  // 금천구 중심좌표
+    //     {location : '노원' , lat : '37.6377533' , lng : '127.0754623'},  // 노원구 중심좌표
+    //     {location : '도봉' , lat : '37.6658609' , lng : '127.0317674'},  // 도봉구 중심좌표
+    //     {location : '동대문' , lat : '37.5838012' , lng : '127.0507003'},  // 동대문구 중심좌표
+    //     {location : '동작' , lat : '37.4965037' , lng : '126.9443073'},  // 동작구 중심좌표
+    //     {location : '마포' , lat : '37.5676507' , lng : '126.8854549'},  // 마포구 중심좌표
+    //     {location : '서대문' , lat : '37.5820369' , lng : '126.9356665'},  // 서대문구 중심좌표
+    //     {location : '서초' , lat : '37.4769528' , lng : '127.0378103'},  // 서초구 중심좌표
+    //     {location : '성동' , lat : '37.5506753' , lng : '127.0409622'},  // 성동구 중심좌표
+    //     {location : '성북' , lat : '37.606991'  , lng : '127.0232185'},  // 성북구 중심좌표
+    //     {location : '송파' , lat : '37.5177941' , lng : '127.1127078'},  // 송파구 중심좌표
+    //     {location : '양천' , lat : '37.5270616' , lng : '126.8561534'},  // 양천구 중심좌표
+    //     {location : '영등포' , lat : '37.520641'  , lng : '126.9139242'},  // 영등포구 중심좌표
+    //     {location : '용산' , lat : '37.5311008' , lng : '126.9810742'},  // 용산구 중심좌표
+    //     {location : '은평' , lat : '37.6176125' , lng : '126.9227004'},  // 은평구 중심좌표
+    //     {location : '종로' , lat : '37.5990998' , lng : '126.9861493'},  // 종로구 중심좌표
+    //     {location : '중구' , lat : '37.5579452' , lng : '126.9941904'},  // 중구 중심좌표
+    //     {location : '중랑구' , lat : '37.598031'  , lng : '127.092931' }   // 중랑구 중심좌표
+    // );
+    //
+    // for (var i = 0; i < areaArr.length; i++) {
+    //     var marker = new naver.maps.Marker({
+    //         map: map,
+    //         title: areaArr[i].place,
+    //         position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng),
+    //     });
+    // }
+
     $(function() {
         initMap();
     });
-
     function initMap() {
-        var areaArr = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
-        // areaArr.push(
-        //     /*지역구 이름*/			/*위도*/					/*경도*/
-        //     {location : '강남' , lat : '37.4959854' , lng : '127.0664091'},  // 강남구 중심좌표
-        //     {location : '강동' , lat : '37.5492077' , lng : '127.1464824'},  // 강동구 중심좌표
-        //     {location : '강북' , lat : '37.6469954' , lng : '127.0147158'},  // 강북구 중심좌표
-        //     {location : '강서' , lat : '37.5657617' , lng : '126.8226561'},  // 강서구 중심좌표
-        //     {location : '관악' , lat : '37.4603732' , lng : '126.9536086'},  // 관악구 중심좌표
-        //     {location : '광진' , lat : '37.5574120' , lng : '127.0796211'},  // 광진구 중심좌표
-        //     {location : '구로' , lat : '37.4954856' , lng : '126.858121' },  // 구로구 중심좌표
-        //     {location : '금천' , lat : '37.4600969' , lng : '126.9001546'},  // 금천구 중심좌표
-        //     {location : '노원' , lat : '37.6377533' , lng : '127.0754623'},  // 노원구 중심좌표
-        //     {location : '도봉' , lat : '37.6658609' , lng : '127.0317674'},  // 도봉구 중심좌표
-        //     {location : '동대문' , lat : '37.5838012' , lng : '127.0507003'},  // 동대문구 중심좌표
-        //     {location : '동작' , lat : '37.4965037' , lng : '126.9443073'},  // 동작구 중심좌표
-        //     {location : '마포' , lat : '37.5676507' , lng : '126.8854549'},  // 마포구 중심좌표
-        //     {location : '서대문' , lat : '37.5820369' , lng : '126.9356665'},  // 서대문구 중심좌표
-        //     {location : '서초' , lat : '37.4769528' , lng : '127.0378103'},  // 서초구 중심좌표
-        //     {location : '성동' , lat : '37.5506753' , lng : '127.0409622'},  // 성동구 중심좌표
-        //     {location : '성북' , lat : '37.606991'  , lng : '127.0232185'},  // 성북구 중심좌표
-        //     {location : '송파' , lat : '37.5177941' , lng : '127.1127078'},  // 송파구 중심좌표
-        //     {location : '양천' , lat : '37.5270616' , lng : '126.8561534'},  // 양천구 중심좌표
-        //     {location : '영등포' , lat : '37.520641'  , lng : '126.9139242'},  // 영등포구 중심좌표
-        //     {location : '용산' , lat : '37.5311008' , lng : '126.9810742'},  // 용산구 중심좌표
-        //     {location : '은평' , lat : '37.6176125' , lng : '126.9227004'},  // 은평구 중심좌표
-        //     {location : '종로' , lat : '37.5990998' , lng : '126.9861493'},  // 종로구 중심좌표
-        //     {location : '중구' , lat : '37.5579452' , lng : '126.9941904'},  // 중구 중심좌표
-        //     {location : '중랑구' , lat : '37.598031'  , lng : '127.092931' }   // 중랑구 중심좌표
-        // );
-        //
-        // for (var i = 0; i < areaArr.length; i++) {
-        //     var marker = new naver.maps.Marker({
-        //         map: map,
-        //         title: areaArr[i].place,
-        //         position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng),
-        //     });
-        // }
-        var list = [[${busstop}]]
-        for (var j = 0; j < list.length; j++) {
-            areaArr.push({location: list[j].name, lat: list[j].y, lng: list[j].x});
-        }
         var map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(37.5697641, 126.9877861),
             zoom: 14
         });
+
+        var list = [[${busstop}]]
+        for (var j = 0; j < list.length; j++) {
+            var contentString = [
+                '<div class="iw_inner">',
+                '   <h3>서울특별시청</h3>',
+                '   <p>서울특별시 중구 태평로1가 31 | 서울특별시 중구 세종대로 110 서울특별시청<br>',
+                '       <img src="./img/hi-seoul.jpg" width="35" height="35" alt="서울시청" class="thumb" /><br>',
+                '       02-120 | 공공,사회기관 > 특별,광역시청<br>',
+                '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
+                '   </p>',
+                '</div>'
+            ].join('');
+
+            var infoWindow = new naver.maps.InfoWindow({
+                content :  contentString
+            });
+
+            infoWindows.push(infoWindow);
+            areaArr.push({location: list[j].name, lat: list[j].y, lng: list[j].x});
+
+        }
+
         for (var i = 0; i < areaArr.length; i++) {
             var marker = new naver.maps.Marker({
                 map: map,
                 title: areaArr[i].place,
                 position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng)
             });
+
+            var info = new naver.maps.Event.addListener(marker, "click", function(e) {
+                if (infoWindow.getMap()) {
+                    infoWindow.close();
+                } else {
+                    infoWindow.open(map, marker);
+                }
+            });
         }
+
     }
+    // // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+    // function getClickHandler(seq) {
+    //     return function(e) {
+    //         var marker = areaArr[seq],
+    //             infoWindow = infoWindows[seq];
+    //
+    //         if (infoWindow.getMap()) {
+    //             infoWindow.close();
+    //         } else {
+    //             infoWindow.open(map, marker);
+    //         }
+    //     }
+    // }
+    // for (var i=0; i<areaArr.length; i++) {
+    //     naver.maps.Event.addListener(areaArr[i],  'click', getClickHandler(i));
+    // }
     /*]]>*/
 </script>
     <head>
@@ -176,44 +221,44 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" th:href="@{board/main}">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Success Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="row">-->
+<!--                            <div class="col-xl-3 col-md-6">-->
+<!--                                <div class="card bg-primary text-white mb-4">-->
+<!--                                    <div class="card-body">Primary Card</div>-->
+<!--                                    <div class="card-footer d-flex align-items-center justify-content-between">-->
+<!--                                        <a class="small text-white stretched-link" th:href="@{board/main}">View Details</a>-->
+<!--                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-xl-3 col-md-6">-->
+<!--                                <div class="card bg-warning text-white mb-4">-->
+<!--                                    <div class="card-body">Warning Card</div>-->
+<!--                                    <div class="card-footer d-flex align-items-center justify-content-between">-->
+<!--                                        <a class="small text-white stretched-link" href="#">View Details</a>-->
+<!--                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-xl-3 col-md-6">-->
+<!--                                <div class="card bg-success text-white mb-4">-->
+<!--                                    <div class="card-body">Success Card</div>-->
+<!--                                    <div class="card-footer d-flex align-items-center justify-content-between">-->
+<!--                                        <a class="small text-white stretched-link" href="#">View Details</a>-->
+<!--                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-xl-3 col-md-6">-->
+<!--                                <div class="card bg-danger text-white mb-4">-->
+<!--                                    <div class="card-body">Danger Card</div>-->
+<!--                                    <div class="card-footer d-flex align-items-center justify-content-between">-->
+<!--                                        <a class="small text-white stretched-link" href="#">View Details</a>-->
+<!--                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
@@ -237,15 +282,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
+<!--                            <div class="col-xl-6">-->
+<!--                                <div class="card mb-4">-->
+<!--                                    <div class="card-header">-->
+<!--                                        <i class="fas fa-chart-bar me-1"></i>-->
+<!--                                        Bar Chart Example-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">

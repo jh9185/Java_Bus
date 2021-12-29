@@ -7,6 +7,18 @@
         SELECT count(membernumber) AS cnt FROM tbl_member;
     </select>
 
+    <select id="idCheck" parameterType="string">
+        SELECT
+            *
+        FROM tbl_member WHERE id=#{id};
+    </select>
+
+    <select id="LoginCheck" resultType="int" parameterType="com.example.java_bus.domain.Member">
+        SELECT
+            *
+        FROM tbl_member where id=#{id} AND password=#{password};
+    </select>
+
     <insert id="AddMember" parameterType="com.example.java_bus.domain.Member">
         INSERT INTO tbl_member (id, password)
         VALUES

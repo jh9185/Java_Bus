@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 public class Member {
     private Long membernumber;
-    private Long id;
+    private String id;
     private String password;
 }

@@ -8,4 +8,8 @@ public interface MemberMapper {
     int MemberCount();
 
     void AddMember(Member member);
+
+    int  IdCheck(String memberid);
+
+    int  LoginCheck(Member member);
 }

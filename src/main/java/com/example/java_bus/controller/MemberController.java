@@ -27,9 +27,15 @@ public class MemberController {
     }
 
     @PostMapping("addmember")
-    public String AddMember(Member member) {
+    public String AddMember(Member member) throws Exception {
         memberService.AddMember(member);
         return "bootstrap/login";
+    }
+
+    @PostMapping("loginCheck")
+    public String LoginMember(Member member) throws Exception {
+        memberService.LoginCheck(member);
+        return "bootstrap/index.html";
     }
 }
 
