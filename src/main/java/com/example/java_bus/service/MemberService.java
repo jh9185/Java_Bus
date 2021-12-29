@@ -1,5 +1,7 @@
 package com.example.java_bus.service;
 
+import com.example.java_bus.domain.Board;
+import com.example.java_bus.domain.Member;
 import com.example.java_bus.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class MemberService {
         return memberMapper.MemberCount();
     }
 
+    @Transactional // 등록
+    public void AddMember(Member member) {
+        memberMapper.AddMember(member);
+    }
     // 가입
     // 조회
     // 탈퇴

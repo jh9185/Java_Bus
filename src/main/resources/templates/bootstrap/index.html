@@ -3,13 +3,10 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     $(function() {
-
         initMap();
-
     });
 
     function initMap() {
-
         var areaArr = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
         // areaArr.push(
         //     /*지역구 이름*/			/*위도*/					/*경도*/
@@ -39,7 +36,7 @@
         //     {location : '중구' , lat : '37.5579452' , lng : '126.9941904'},  // 중구 중심좌표
         //     {location : '중랑구' , lat : '37.598031'  , lng : '127.092931' }   // 중랑구 중심좌표
         // );
-
+        //
         // for (var i = 0; i < areaArr.length; i++) {
         //     var marker = new naver.maps.Marker({
         //         map: map,
@@ -47,18 +44,14 @@
         //         position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng),
         //     });
         // }
-
         var list = [[${busstop}]]
-
         for (var j = 0; j < list.length; j++) {
             areaArr.push({location: list[j].name, lat: list[j].y, lng: list[j].x});
         }
-
         var map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(37.5697641, 126.9877861),
             zoom: 14
         });
-
         for (var i = 0; i < areaArr.length; i++) {
             var marker = new naver.maps.Marker({
                 map: map,

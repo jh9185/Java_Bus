@@ -1,10 +1,12 @@
 package com.example.java_bus.controller;
 
+import com.example.java_bus.domain.Member;
 import com.example.java_bus.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -24,6 +26,10 @@ public class MemberController {
         return "bootstrap/register.html";
     }
 
-
+    @PostMapping("addmember")
+    public String AddMember(Member member) {
+        memberService.AddMember(member);
+        return "bootstrap/login";
+    }
 }
 

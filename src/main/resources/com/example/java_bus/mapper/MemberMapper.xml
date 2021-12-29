@@ -7,4 +7,10 @@
         SELECT count(membernumber) AS cnt FROM tbl_member;
     </select>
 
+    <insert id="AddMember" parameterType="com.example.java_bus.domain.Member">
+        INSERT INTO tbl_member (id, password)
+        VALUES
+            (#{id}, #{password});
+    </insert>
+
 </mapper>
