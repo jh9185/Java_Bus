@@ -5,9 +5,8 @@ import com.example.java_bus.mapper.BusMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
 import org.json.XML;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,10 +83,32 @@ public class BusService {
             conn.disconnect();
             System.out.println(sb.toString());
 
-            JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
+            org.json.JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
             String xmlJSONObjString = xmlJSONObj.toString();
 
-            return sb.toString();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(xmlJSONObjString);
+            JSONObject busStationInfoResult = (JSONObject)jsonObject.get("ServiceResult");
+            JSONObject busStationInfo = (JSONObject)busStationInfoResult.get("msgBody");
+
+            JSONArray itemList = (JSONArray)busStationInfo.get("itemList");
+
+            for (int i =0; i<itemList.size(); i++){
+                JSONObject detailInfo = (JSONObject)itemList.get(i);
+                System.out.println("노선 ID  : " + detailInfo.get("busRouteId"));
+                System.out.println("노선명   : " + detailInfo.get("busRouteNm"));
+                System.out.println("순번     : " + detailInfo.get("seq"));
+                System.out.println("구간 ID  : " + detailInfo.get("section"));
+                System.out.println("정류소 ID  : " + detailInfo.get("station"));
+                System.out.println("정류소 이름 : " + detailInfo.get("stationNm"));
+                System.out.println("정류소 X  : " + detailInfo.get("gpsX"));
+                System.out.println("정류소 Y : " + detailInfo.get("gpsY"));
+                System.out.println("-------------------------------------------");
+            }
+
+            String genreNm = "";
+
+            return xmlJSONObjString;
         } catch (Exception e) {
             e.printStackTrace();
         }
