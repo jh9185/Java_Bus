@@ -22,7 +22,6 @@ public class MainController {
     @GetMapping("")
     public String Main(Model model) throws IOException {
         model.addAttribute("list", boradservice.boardList());
-        //model.addAttribute("busstop", busservice.busdataList());
         return "bootstrap/index";
     }
 
@@ -34,7 +33,6 @@ public class MainController {
 
     @PostMapping("")
     public String mainBoard() {
-
         return "redirect:/index";
     }
 }

@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,11 +26,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class BusService {
     private final BusMapper busdataMapper;
-
-    //DB 정류소 가져오기
-//    public List<BusStation> busdataList() {
-//        return busdataMapper.getList();
-//    }
 
     // 데이터 가져오기
     public String BusStopLoadData() throws IOException {
@@ -58,7 +54,8 @@ public class BusService {
     }
 
     // 데이터 가져오기
-    public String BusStationLoadData() throws IOException {
+    public List<BusStation> BusStationLoadData() throws IOException {
+        List<BusStation> busStatinlist = new ArrayList<BusStation>();
         try {
             StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute"); /*URL*/
             urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D"); /*Service Key*/
@@ -94,24 +91,32 @@ public class BusService {
             JSONArray itemList = (JSONArray)busStationInfo.get("itemList");
 
             for (int i =0; i<itemList.size(); i++){
+                BusStation busStation = new BusStation();
+
                 JSONObject detailInfo = (JSONObject)itemList.get(i);
-                System.out.println("노선 ID  : " + detailInfo.get("busRouteId"));
-                System.out.println("노선명   : " + detailInfo.get("busRouteNm"));
-                System.out.println("순번     : " + detailInfo.get("seq"));
-                System.out.println("구간 ID  : " + detailInfo.get("section"));
-                System.out.println("정류소 ID  : " + detailInfo.get("station"));
-                System.out.println("정류소 이름 : " + detailInfo.get("stationNm"));
-                System.out.println("정류소 X  : " + detailInfo.get("gpsX"));
-                System.out.println("정류소 Y : " + detailInfo.get("gpsY"));
-                System.out.println("-------------------------------------------");
+//                System.out.println("노선 ID  : " + detailInfo.get("busRouteId"));
+//                System.out.println("노선명   : " + detailInfo.get("busRouteNm"));
+//                System.out.println("순번     : " + detailInfo.get("seq"));
+//                System.out.println("구간 ID  : " + detailInfo.get("section"));
+//                System.out.println("정류소 ID  : " + detailInfo.get("station"));
+//                System.out.println("정류소 이름 : " + detailInfo.get("stationNm"));
+//                System.out.println("정류소 X  : " + detailInfo.get("gpsX"));
+//                System.out.println("정류소 Y : " + detailInfo.get("gpsY"));
+//                System.out.println("-------------------------------------------");
+                busStation.setBusRouteId((Long) detailInfo.get("busRouteId"));
+                busStation.setBusRouteNm((String) detailInfo.get("busRouteNm"));
+                busStation.setNumber((Long) detailInfo.get("seq"));
+                busStation.setStStationNm((String) detailInfo.get("stationNm"));
+                busStation.setPosX((double) detailInfo.get("gpsX"));
+                busStation.setPosY((double) detailInfo.get("gpsY"));
+
+                busStatinlist.add(i, busStation);
             }
 
-            String genreNm = "";
-
-            return xmlJSONObjString;
+            return busStatinlist;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return busStatinlist;
     }
 }

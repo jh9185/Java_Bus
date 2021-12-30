@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class BusStation {
     private Long number;
     private Long busRouteId;
-    private Long busRouteNm;
+    private String busRouteNm;
     private String corpNm;
     private String edStationNm;
     private Long firstBusTm;
@@ -26,4 +26,6 @@ public class BusStation {
     private Long routeType;
     private String stStationNm;
     private Long term;
+    private Double posX;
+    private Double posY;
 }
