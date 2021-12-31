@@ -1,26 +1,33 @@
 package com.example.java_bus.service;
 
+import com.example.java_bus.domain.BusNumber;
 import com.example.java_bus.domain.BusStation;
 import com.example.java_bus.mapper.BusMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.XML;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -53,7 +60,7 @@ public class BusService {
         return result+"</xmp>";
     }
 
-    // 데이터 가져오기
+    // 노선 데이터 가져오기
     public List<BusStation> BusStationLoadData() throws IOException {
         List<BusStation> busStatinlist = new ArrayList<BusStation>();
         try {
@@ -118,5 +125,70 @@ public class BusService {
             e.printStackTrace();
         }
         return busStatinlist;
+    }
+
+    public List<BusNumber> readBusNumber() throws IOException {
+        List<BusNumber> dataList = new ArrayList<BusNumber>();
+
+        FileInputStream File = new FileInputStream("C:\\Users\\KJH\\Downloads\\20210520기준_서울시_노선현황.xlsx");
+
+        String extension = FilenameUtils.getExtension("C:\\Users\\KJH\\Downloads\\20210520기준_서울시_노선현황.xlsx"); // 3
+
+        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+            return dataList;
+        }
+
+        Workbook workbook = null;
+
+        if (extension.equals("xlsx")) {
+            workbook = new XSSFWorkbook(File);
+        } else if (extension.equals("xls")) {
+            workbook = new HSSFWorkbook(File);
+        }
+
+        Sheet worksheet = workbook.getSheetAt(0);
+
+        for (int i = 0; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+            Row row = worksheet.getRow(i);
+            if (row != null) {
+                int cellCount = row.getPhysicalNumberOfCells();
+                BusNumber busnumber = new BusNumber();
+                for (int j=0; j <= cellCount; j++) {
+                    Cell cell=row.getCell(j);
+                    String value = "";
+                    if(cell==null){
+                        continue;
+                    }else {
+                        //타입별로 내용 읽기
+                        switch (cell.getCellType()) {
+                            case XSSFCell.CELL_TYPE_FORMULA:
+                                value = cell.getCellFormula();
+                                break;
+                            case XSSFCell.CELL_TYPE_NUMERIC:
+                                value = cell.getNumericCellValue() + "";
+                                break;
+                            case XSSFCell.CELL_TYPE_STRING:
+                                value = cell.getStringCellValue() + "";
+                                if (value.equals("ROUTE_ID") || value.equals("노선명"))
+                                    continue;
+                                if (j == 0) {
+                                    busnumber.setBusRouteId(Long.valueOf(value));
+                                } else {
+                                    busnumber.setBusRouteNm(value);
+                                    dataList.add(busnumber);
+                                }
+                                break;
+                            case XSSFCell.CELL_TYPE_BLANK:
+                                value = cell.getBooleanCellValue() + "";
+                                break;
+                            case XSSFCell.CELL_TYPE_ERROR:
+                                value = cell.getErrorCellValue() + "";
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return dataList;
     }
 }

@@ -27,7 +27,7 @@ public class MainController {
 
     @GetMapping("/busStationload")
     public String MainbusStationLoad(Model model) throws IOException {
-        busservice.BusStationLoadData();
+        //busservice.BusStationLoadData();
         return "bootstrap/index";
     }
 

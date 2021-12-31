@@ -29,3 +29,4 @@ public class BusStation {
     private Double posX;
     private Double posY;
 }
+

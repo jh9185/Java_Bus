@@ -35,6 +35,10 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 
+    compileOnly(group: 'org.apache.poi', name: 'poi', version: '3.11')
+    compileOnly(group: 'org.apache.poi', name: 'poi-ooxml', version: '3.11')
+
+    compileOnly(group: 'commons-io', name: 'commons-io', version: '2.4')
 }
 
 test {

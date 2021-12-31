@@ -17,13 +17,14 @@ public class BusController {
 
     @GetMapping("/bus")
     public String searchStationapi(Model model) throws IOException {
-        model.addAttribute("busstationlist", busservice.BusStationLoadData());
-        return "/busstation/view.html";
+        //model.addAttribute("busstationlist", busservice.BusStationLoadData());
+        return "/busstation/busstationview.html";
     }
 //
-//    @PostMapping("/bus")
-//    public String callapi(Model model) throws IOException {
+    @PostMapping("/bus")
+    public String busNumberUpload(Model model) throws IOException {
+        model.addAttribute("busnumberlist", busservice.readBusNumber());
 //        model.addAttribute("busstationlist", busservice.BusStationLoadData());
-//        return "/busstation/view.html";
-//    }
+        return "/busstation/busnumberview.html";
+    }
 }

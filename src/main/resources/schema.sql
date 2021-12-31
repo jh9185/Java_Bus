@@ -1,10 +1,15 @@
 
+CREATE TABLE tbl_busrouteid(
+number Long auto_increment,
+busRouteId Long not null default 0,
+busRouteNm varchar (30) not null
+);
 CREATE TABLE tbl_busrouteinfo(
 number Long auto_increment,
 busRouteId Long not null default 0,
 busRouteNm Long not null default 0,
-corpNm varchar (30) not null default 0,
-edStationNm varchar (30) not null default 0,
+corpNm varchar (30) not null,
+edStationNm varchar (30) not null,
 firstBusTm Long not null default 0,
 firstLowTm Long not null default 0,
 lastBusTm Long not null default 0,
