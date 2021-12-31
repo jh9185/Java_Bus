@@ -28,14 +28,14 @@ import java.util.List;
 public class BusService {
     private final BusMapper busdataMapper;
 
-    // 데이터 가져오기
-    public String BusStopLoadData() throws IOException {
+    // 정류장 데이터 가져오기
+    public String BusStopLoadData(Long busRouteId) throws IOException {
         StringBuffer result = new StringBuffer();
         try{
-            String urlstr = "http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?"
-                    + "serviceKey=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D"
-                    + "&busRouteId=104000007";
-            URL url = new URL(urlstr);
+            StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?" +
+                    "serviceKey=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D");
+            urlBuilder.append("&" + URLEncoder.encode("busRouteId", "UTF-8") + "=" + busRouteId.toString()); /**/
+            URL url = new URL(urlBuilder.toString());
             HttpURLConnection urlConnection = (HttpURLConnection)  url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-type", "application/json");
@@ -58,8 +58,8 @@ public class BusService {
     public List<BusStation> BusStationLoadData(Long busRouteId) throws IOException {
         List<BusStation> busStatinlist = new ArrayList<BusStation>();
         try {
-            StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute"); /*URL*/
-            urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D"); /*Service Key*/
+            StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?" +
+                    "serviceKey=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D");
             urlBuilder.append("&" + URLEncoder.encode("busRouteId", "UTF-8") + "=" + busRouteId.toString()); /**/
             URL url = new URL(urlBuilder.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -79,7 +79,8 @@ public class BusService {
             }
             rd.close();
             conn.disconnect();
-            System.out.println(sb.toString());
+            //Connect check log
+            //System.out.println(sb.toString());
 
             org.json.JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
             String xmlJSONObjString = xmlJSONObj.toString();
@@ -90,7 +91,6 @@ public class BusService {
             JSONObject busStationInfo = (JSONObject)busStationInfoResult.get("msgBody");
 
             JSONArray itemList = (JSONArray)busStationInfo.get("itemList");
-
             for (int i =0; i<itemList.size(); i++){
                 BusStation busStation = new BusStation();
 
@@ -105,9 +105,9 @@ public class BusService {
 //                System.out.println("정류소 Y : " + detailInfo.get("gpsY"));
 //                System.out.println("-------------------------------------------");
                 busStation.setBusRouteId((Long) detailInfo.get("busRouteId"));
-                busStation.setBusRouteNm((String) detailInfo.get("busRouteNm"));
+                busStation.setBusRouteNm(String.valueOf(detailInfo.get("busRouteNm")));
                 busStation.setNumber((Long) detailInfo.get("seq"));
-                busStation.setStStationNm((String) detailInfo.get("stationNm"));
+                busStation.setStStationNm(String.valueOf(detailInfo.get("stationNm")));
                 busStation.setPosX((double) detailInfo.get("gpsX"));
                 busStation.setPosY((double) detailInfo.get("gpsY"));
 
