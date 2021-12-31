@@ -33,6 +33,7 @@ public class BoardController {
         return "/boards/view";
     }
 
+    //등록
     @GetMapping("/upload")
     public String uploadBoardForm(){
         return "/boards/upload";
@@ -45,6 +46,7 @@ public class BoardController {
         return "redirect:/main";
     }
 
+    //수정
     @PostMapping("/update")
     public String updateBoard(Board board){
         service.updateBoard(board);
@@ -56,6 +58,7 @@ public class BoardController {
         return "redirect:/main";
     }
 
+    //삭제
     @PostMapping("/delete")
     public String deleteBoard(Long boardId){
         service.deleteBoard(boardId);

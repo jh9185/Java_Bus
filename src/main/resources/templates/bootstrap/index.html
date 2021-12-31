@@ -140,15 +140,18 @@
 
                                 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
                                 <script>
-                                    // var map = new naver.maps.Map('map', {
-                                    //     center: new naver.maps.LatLng(37.5697641, 126.9877861),
-                                    //     zoom: 14
-                                    // });
+                                    var map = new naver.maps.Map('map', {
+                                        center: new naver.maps.LatLng(37.5697641, 126.9877861),
+                                        zoom: 14
+                                    });
                                 </script>
                                 <div class="card-body">
-                                <form th:action="@{bus}" method="post">
-                                    <input class="form-control" type="text" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" aria-describedby="btnNavbarSearch" />
+                                <form th:action="@{bus/searchstationview}" method="get">
+                                    <input class="form-control" type="text"  name="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" aria-describedby="btnNavbarSearch" />
                                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                                </form>
+                                <form th:action="@{/bus/numberview}" method="get">
+                                    <button class="btn btn-primary" type="submit"><i class="fas fa-search">버스 번호 조회</i></button>
                                 </form>
                                 </div>
                             </div>

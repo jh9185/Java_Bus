@@ -1,5 +1,5 @@
 
-CREATE TABLE tbl_busrouteid(
+CREATE TABLE tbl_busnumber(
 number Long auto_increment,
 busRouteId Long not null default 0,
 busRouteNm varchar (30) not null

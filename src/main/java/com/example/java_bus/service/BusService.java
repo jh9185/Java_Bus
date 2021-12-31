@@ -1,36 +1,30 @@
 package com.example.java_bus.service;
 
+import com.example.java_bus.domain.Board;
 import com.example.java_bus.domain.BusNumber;
 import com.example.java_bus.domain.BusStation;
 import com.example.java_bus.mapper.BusMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.json.simple.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.XML;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BusService {
     private final BusMapper busdataMapper;
 
@@ -61,12 +55,12 @@ public class BusService {
     }
 
     // 노선 데이터 가져오기
-    public List<BusStation> BusStationLoadData() throws IOException {
+    public List<BusStation> BusStationLoadData(Long busRouteId) throws IOException {
         List<BusStation> busStatinlist = new ArrayList<BusStation>();
         try {
             StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute"); /*URL*/
             urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D"); /*Service Key*/
-            urlBuilder.append("&" + URLEncoder.encode("busRouteId", "UTF-8") + "=" + URLEncoder.encode("104000007", "UTF-8")); /**/
+            urlBuilder.append("&" + URLEncoder.encode("busRouteId", "UTF-8") + "=" + busRouteId.toString()); /**/
             URL url = new URL(urlBuilder.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -127,68 +121,86 @@ public class BusService {
         return busStatinlist;
     }
 
-    public List<BusNumber> readBusNumber() throws IOException {
-        List<BusNumber> dataList = new ArrayList<BusNumber>();
+    @Transactional // 등록
+    public void uploadBusNumber(BusNumber busNumber){
+        busdataMapper.insertBusNumberList(busNumber);
+    }
 
-        FileInputStream File = new FileInputStream("C:\\Users\\KJH\\Downloads\\20210520기준_서울시_노선현황.xlsx");
+    public void readBusNumber() throws IOException {
+//        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+//            return dataList;
+//        }
+        FileInputStream fis=new FileInputStream("C:\\Users\\KJH\\Downloads\\20210520기준_서울시_노선현황.xlsx");
+        XSSFWorkbook workbook=new XSSFWorkbook(fis);
+        int rowindex=0;
+        int columnindex=0;
+        //시트 수 (첫번째에만 존재하므로 0을 준다)
+        //만약 각 시트를 읽기위해서는 FOR문을 한번더 돌려준다
+        XSSFSheet sheet=workbook.getSheetAt(0);
+        //행의 수
+        int rows=sheet.getPhysicalNumberOfRows();
 
-        String extension = FilenameUtils.getExtension("C:\\Users\\KJH\\Downloads\\20210520기준_서울시_노선현황.xlsx"); // 3
-
-        if (!extension.equals("xlsx") && !extension.equals("xls")) {
-            return dataList;
-        }
-
-        Workbook workbook = null;
-
-        if (extension.equals("xlsx")) {
-            workbook = new XSSFWorkbook(File);
-        } else if (extension.equals("xls")) {
-            workbook = new HSSFWorkbook(File);
-        }
-
-        Sheet worksheet = workbook.getSheetAt(0);
-
-        for (int i = 0; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
-            Row row = worksheet.getRow(i);
-            if (row != null) {
-                int cellCount = row.getPhysicalNumberOfCells();
-                BusNumber busnumber = new BusNumber();
-                for (int j=0; j <= cellCount; j++) {
-                    Cell cell=row.getCell(j);
-                    String value = "";
+        for(rowindex=1;rowindex<rows;rowindex++){
+            //행을읽는다
+            XSSFRow row=sheet.getRow(rowindex);
+            BusNumber busnumber = new BusNumber();
+            if(row !=null){
+                //셀의 수
+                int cells=row.getPhysicalNumberOfCells();
+                for(columnindex=0;columnindex<=cells;columnindex++){
+                    //셀값을 읽는다
+                    XSSFCell cell=row.getCell(columnindex);
+                    String value="";
+                    //셀이 빈값일경우를 위한 널체크
                     if(cell==null){
                         continue;
-                    }else {
+                    }else{
                         //타입별로 내용 읽기
-                        switch (cell.getCellType()) {
-                            case XSSFCell.CELL_TYPE_FORMULA:
-                                value = cell.getCellFormula();
+                        switch (cell.getCellType()){
+                            case FORMULA:
+                                value=cell.getCellFormula();
                                 break;
-                            case XSSFCell.CELL_TYPE_NUMERIC:
-                                value = cell.getNumericCellValue() + "";
+                            case NUMERIC:
+                                value=cell.getNumericCellValue()+"";
                                 break;
-                            case XSSFCell.CELL_TYPE_STRING:
-                                value = cell.getStringCellValue() + "";
-                                if (value.equals("ROUTE_ID") || value.equals("노선명"))
+                            case STRING:
+                                value=cell.getStringCellValue()+"";
+                                if(value.equals("ROUTER_ID") || value.equals("노선명"))
                                     continue;
-                                if (j == 0) {
-                                    busnumber.setBusRouteId(Long.valueOf(value));
-                                } else {
-                                    busnumber.setBusRouteNm(value);
-                                    dataList.add(busnumber);
-                                }
                                 break;
-                            case XSSFCell.CELL_TYPE_BLANK:
-                                value = cell.getBooleanCellValue() + "";
+                            case BLANK:
+                                value=cell.getBooleanCellValue()+"";
                                 break;
-                            case XSSFCell.CELL_TYPE_ERROR:
-                                value = cell.getErrorCellValue() + "";
+                            case ERROR:
+                                value=cell.getErrorCellValue()+"";
+                                break;
+                        }
+                        switch(columnindex){
+                            case 0:
+                                busnumber.setBusRouteId(Long.valueOf(value));
+                                break;
+                            case 1:
+                                busnumber.setBusRouteNm(value);
+                                uploadBusNumber(busnumber);
                                 break;
                         }
                     }
                 }
             }
         }
-        return dataList;
+    }
+
+    public Long searchBusRouteId(String busName) {
+        BusNumber busNumber;
+        busNumber = busdataMapper.getBusRouteId(busName);
+        return busNumber.getBusRouteId();
+    }
+    // 버스 번호 가져오기
+    public List<BusNumber> getBusNumberList() {
+        return busdataMapper.getNumberList();
+    }
+
+    public List<BusStation> getBusStationList(Long busRouteId) throws IOException {
+        return BusStationLoadData(busRouteId);
     }
 }
