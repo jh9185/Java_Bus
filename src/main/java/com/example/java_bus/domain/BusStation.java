@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
 public class BusStation {
     private Long number;
     private Long busRouteId;
+    private String arrmsg;
+    private String arrmsg2;
+    private String plainNo1;
+    private String plainNo2;
     private String busRouteNm;
     private String corpNm;
     private String edStationNm;

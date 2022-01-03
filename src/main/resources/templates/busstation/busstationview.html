@@ -90,8 +90,8 @@
             <th>버스 번호</th>
             <th>정류장 번호</th>
             <th>정류장 이름</th>
-            <th>정류소 위치 X</th>
-            <th>정류소 위치 Y</th>
+            <th>도착 정보</th>
+            <th>도착 버스번호</th>
         </tr>
         </thead>
         <tbody>
@@ -100,8 +100,10 @@
             <td>[[${busstationlist.busRouteNm}]]</td>
             <td>[[${busstationlist.number}]]</td>
             <td>[[${busstationlist.StStationNm}]]</td>
-            <td>[[${busstationlist.posX}]]</td>
-            <td>[[${busstationlist.posY}]]</td>
+            <td>[[${busstationlist.arrmsg}]]<br>
+                [[${busstationlist.arrmsg2}]]</td>
+            <td>[[${busstationlist.plainNo1}]]<br>
+                [[${busstationlist.plainNo2}]]</td>
         </tr>
         </tbody>
     </table>

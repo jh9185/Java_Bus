@@ -125,24 +125,22 @@
 <!--                            </form>-->
                             <div class="card-header">
                                 <i class="fas fa-chart-area me-1"></i>
-                                간단한 지도 표시하기
+                                서울 버스 도착 정보 조회하기
                             </div>
                             <div class="card-body">
                                 <meta charset="UTF-8">
                                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-                                <div class="card-body">
 
                                 <form th:action="@{bus/stationview}" method="get">
-                                    <input class="form-control" type="text"  name="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" aria-describedby="btnNavbarSearch" />
+                                    <input class="form-control" type="text"  name="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" />
                                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                                 </form>
 
                                 <form th:action="@{/bus/numberview}" method="get">
-                                    <button class="btn btn-primary" type="submit"><i class="fas fa-search">버스 번호 조회</i></button>
+                                    <button class="btn btn-info" type="submit">서울 버스 번호 조회</button>
                                 </form>
-                                </div>
                             </div>
                         </div>
                     </div>
