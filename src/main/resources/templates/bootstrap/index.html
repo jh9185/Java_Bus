@@ -132,29 +132,6 @@
                                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-                                <div id="map" style="width:100%;height:400px;">
-                                </div>
-
-                                <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
-                                <script>
-                                    let map = new naver.maps.Map('map', {
-                                        center: new naver.maps.LatLng(37.5697641, 126.9877861),
-                                        zoom: 14
-                                    });
-                                    const locations = [
-                                        { place:"건대입구역", lat: 37.539922, lng: 127.070609 },
-                                        { place:"어린이대공원역", lat: 37.547263, lng: 127.074181 },
-                                    ];
-
-                                    for (var i = 0; i < locations.length; i++) {
-                                        var marker = new naver.maps.Marker({
-                                            map: map,
-                                            title: locations[i].place,
-                                            position: new naver.maps.LatLng(locations[i].lat, locations[i].lng),
-                                        });
-                                    }
-                                </script>
-
                                 <div class="card-body">
 
                                 <form th:action="@{bus/stationview}" method="get">
