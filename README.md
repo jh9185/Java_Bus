@@ -8,6 +8,6 @@
   <p>Java Spring, Gradle</p>
   <p>h2, jdbc, lombok, thymeleaf</p>
   <p>html 템플릿 https://startbootstrap.com/template/sb-admin </
-![image](https://user-images.githubusercontent.com/89440013/147914307-920d0242-84f6-4b62-a729-08ef5813c97a.png)
-
+  <img src="https://user-images.githubusercontent.com/89440013/147914547-52885617-5ea1-4582-bbf7-74f25b485182.png"  width="700" height="370">
 </body>
+
