@@ -31,8 +31,4 @@ public class MainController {
         return "bootstrap/index";
     }
 
-    @PostMapping("")
-    public String mainBoard() {
-        return "redirect:/index";
-    }
 }

@@ -27,7 +27,7 @@
         <tr th:each="busnumberlist :${busnumberlist}">
             <td>[[${busnumberlist.busRouteId}]]</td>
             <td>
-                <a th:href="@{/bus/stationview(busRouteId=${busnumberlist.busRouteId})}">
+                <a th:href="@{/bus/stationview(busNumber=${busnumberlist.busRouteNm})}">
                     [[${busnumberlist.busRouteNm}]]
                 </a>
             </td>

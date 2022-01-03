@@ -3,10 +3,7 @@
 //document.writeln('<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"><\/script>');
 
 var areaArr = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
-var infoWindows = new Array(); // 정보 창 배열
-var script = document.createElement('script');
-script.src = "https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m";
-document.head.appendChild(script);
+
 // areaArr.push(
 //     /*지역구 이름*/			/*위도*/					/*경도*/
 //     {location : '강남' , lat : '37.4959854' , lng : '127.0664091'},  // 강남구 중심좌표
@@ -43,46 +40,45 @@ document.head.appendChild(script);
 //         position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng),
 //     });
 // }
-// $(function() {
-//     initMap();
+//
+// $(function(){
+//     $.initmap = function(){
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5697641, 126.9877861),
+            zoom: 14
+        });
+//     };
 // });
 
-console.log("1123");
 
-function initMap() {
-    var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.5697641, 126.9877861),
-        zoom: 14
-    });
-    console.log("initmap");
-}
 
-function mapMarker() {
-    var list = [[${busstop}]]
-    for (var j = 0; j < list.length; j++) {
-        var infoWindow = new naver.maps.InfoWindow({
-            content: list[j].name
-        });
-        infoWindows.push(infoWindow);
-        areaArr.push({location: list[j].name, lat: list[j].y, lng: list[j].x});
-    }
 
-    for (var i = 0; i < areaArr.length; i++) {
-        var marker = new naver.maps.Marker({
-            map: map,
-            title: areaArr[i].place,
-            position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng)
-        });
-
-        var info = new naver.maps.Event.addListener(marker, "click", function (e) {
-            if (infoWindow.getMap()) {
-                infoWindow.close();
-            } else {
-                infoWindow.open(map, marker);
-            }
-        });
-    }
-}
+// function mapMarker() {
+//     var list = [[${busstop}]];
+//     for (var j = 0; j < list.length; j++) {
+//         var infoWindow = new naver.maps.InfoWindow({
+//             content: list[j].name
+//         });
+//         infoWindows.push(infoWindow);
+//         areaArr.push({location: list[j].name, lat: list[j].y, lng: list[j].x});
+//     }
+//
+//     for (var i = 0; i < areaArr.length; i++) {
+//         var marker = new naver.maps.Marker({
+//             map: map,
+//             title: areaArr[i].place,
+//             position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng)
+//         });
+//
+//         var info = new naver.maps.Event.addListener(marker, "click", function (e) {
+//             if (infoWindow.getMap()) {
+//                 infoWindow.close();
+//             } else {
+//                 infoWindow.open(map, marker);
+//             }
+//         });
+//     }
+// }
 // // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
 // function getClickHandler(seq) {
 //     return function(e) {

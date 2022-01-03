@@ -1,21 +1,43 @@
 <html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org">
 <head>
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-
-    <script src="js/vendor/modernizr-3.8.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script>window.jQuery || document.write('<script src="@{/js/vendor/jquery-3.4.1.min.js}"><\/script>')</script>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <title>Title</title>
-
 </head>
 <meta charset="UTF-8">
 <title>버스 정류장 조회</title>
+<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
 </head>
 <body>
 <div class="container">
+    <form th:action="@{bus/mapviewstations}" method="get">
+    <button id="stationBtn" class="btn btn-secondary btn-sm float-left">모든 정류장 지도 표시</button>
+    </form>
+    <div id="map" style="width:100%;height:400px;">
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var locations = new Array();
+        var list = [[${busstationlist}]];
+
+        for (var j = 0; j < list.length; j++) {
+            locations.push({location: list[j].StStationNm, lat: list[j].posY, lng: list[j].posX});
+        }
+
+        let map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng([[${busstationscenter.y}]], [[${busstationscenter.x}]]),
+            zoom: 12
+        });
+
+        for (var i = 0; i < locations.length; i++) {
+            var marker = new naver.maps.Marker({
+                map: map,
+                title: locations[i].place,
+                position: new naver.maps.LatLng(locations[i].lat, locations[i].lng)
+            });
+        }
+        /*]]>*/
+    </script>
     <table id="busstationboard" class="table table-hover">
         <thead>
         <tr>

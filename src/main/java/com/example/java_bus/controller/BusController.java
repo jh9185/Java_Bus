@@ -1,15 +1,19 @@
 package com.example.java_bus.controller;
 
+import com.example.java_bus.domain.BusStation;
 import com.example.java_bus.service.BusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/bus/*")
@@ -36,16 +40,15 @@ public class BusController {
     }
 
     @GetMapping("stationview")
-    public String viewBusStation(Model model, Long busRouteId) throws IOException {
-        model.addAttribute("busstationlist", busservice.getBusStationList(busRouteId));
-        return "/busstation/busstationview.html";
-    }
-
-    @GetMapping("searchstationview")
     public String viewBusStation(Model model, String busNumber) throws IOException {
         // 넘버 -> ID 변환
         Long busRouteId = busservice.searchBusRouteId(busNumber);
-        model.addAttribute("busstationlist", busservice.getBusStationList(busRouteId));
+        List<BusStation> busStations = busservice.getBusStationList(busRouteId);
+        Point2D CenterPos = busservice.getBusStationsCenter(busStations);
+        model.addAttribute("busstationlist", busStations);
+        model.addAttribute("busstationscenter", CenterPos);
+
         return "/busstation/busstationview.html";
     }
+
 }

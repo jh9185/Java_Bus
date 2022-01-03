@@ -16,6 +16,8 @@ import org.json.XML;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.*;
 import java.io.FileInputStream;
 import java.net.HttpURLConnection;
@@ -200,7 +202,40 @@ public class BusService {
         return busdataMapper.getNumberList();
     }
 
+    // 버스 정류장 가져오기
     public List<BusStation> getBusStationList(Long busRouteId) throws IOException {
         return BusStationLoadData(busRouteId);
+    }
+
+    public BusStation getBusStation(Long busRouteId, Long busRouteSeq) throws IOException {
+        BusStation searchStation = new BusStation();
+        List<BusStation> busStations = BusStationLoadData(busRouteId);
+
+        if((busRouteSeq<1) || (busRouteSeq > busStations.size()))
+            return searchStation;
+
+        return busStations.get(Math.toIntExact(busRouteSeq));
+    }
+
+    public List<BusStation> getBusStations(Long busRouteId) throws IOException {
+        return BusStationLoadData(busRouteId);
+    }
+
+    public Point2D getBusStationsCenter(List<BusStation> busStationList){
+        Point2D centerPos = new Point2D.Double();
+        double avgPosX = 0, avgPosY = 0;
+
+        for(int i=0; i<busStationList.size(); i++){
+            BusStation busStation = busStationList.get(i);
+            avgPosX = avgPosX + busStation.getPosX();
+            avgPosY = avgPosY + busStation.getPosY();
+        }
+
+        avgPosX = avgPosX / busStationList.size();
+        avgPosY = avgPosY / busStationList.size();
+
+        centerPos.setLocation(avgPosX, avgPosY);
+
+        return centerPos;
     }
 }
