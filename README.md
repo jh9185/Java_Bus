@@ -1,11 +1,12 @@
-# Java_Bus
-<head>
-  <h6>버스도착정보프로젝트(Spring)</h6>
-</head>
-<body>
-  <p>Studio - Intellij 2021.03 </p>
-  <p>jdk-17.0.1</p>
-  <p>Java Spring, Gradle</p>
-  <p>h2, jdbc, lombok, thymeleaf</p>
-  <p>html 템플릿 https://startbootstrap.com/template/sb-admin </
-</body>
+![image](https://user-images.githubusercontent.com/89440013/147914547-52885617-5ea1-4582-bbf7-74f25b485182.png)
+
+<h4>버스도착정보프로젝트(Spring)<h4><br>
+
+  - Studio - Intellij 2021.03<br>
+  - jdk-17.0.1<br>
+  - Java Spring, Gradle<br>
+  - h2, jdbc, lombok, thymeleaf<br>
+  - naver map api<br>
+  - 서울 공공데이터( 노선정보조회, 버스도착정보조회 )
+  - html 템플릿 https://startbootstrap.com/template/sb-admin<br>
+  - 기간 : 2021.12 ~ (진행중)
