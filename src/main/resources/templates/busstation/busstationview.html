@@ -2,60 +2,74 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <title>Title</title>
-</head>
-<meta charset="UTF-8">
-<title>버스 정류장 조회</title>
-<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
+    <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
+    <title>버스 정류장 조회</title>
 </head>
 <body>
 <div class="container">
-    <form th:action="@{bus/mapviewstations}" method="get">
-    <button id="stationBtn" class="btn btn-secondary btn-sm float-left">모든 정류장 지도 표시</button>
-    </form>
     <div id="map" style="width:100%;height:400px;">
     </div>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var locations = new Array();
-        var markers = new Array();
-        var infoWindows = new Array();
-        var polylinePaths = new Array();
+        let locations = new Array();
+        let markers = new Array();
+        let infoWindows = new Array();
+        let polylinePaths = new Array();
+        let polylineTransPaths = new Array();
+        let transValue = 0;
 
-        var list = [[${busstationlist}]];
+        let list = [[${busstationlist}]];
 
         let map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng([[${busstationscenter.y}]], [[${busstationscenter.x}]]),
             zoom: 12
         });
 
-        for (var j = 0; j < list.length; j++) {
-            locations.push({location: list[j].StStationNm, lat: list[j].posY, lng: list[j].posX});
+        for (let j = 0; j < list.length; j++) {
+            locations.push({location: list[j].stStationNm, lat: list[j].posY, lng: list[j].posX});
+
+            if(list[j].transYn == "Y")
+                transValue = j;
         }
 
-        for (var i = 0; i < locations.length; i++) {
-            var marker = new naver.maps.Marker({
+
+        for (let i = 0; i < locations.length; i++) {
+            let marker = new naver.maps.Marker({
                 map: map,
-                title: locations[i].place,
+                title: locations[i].location,
                 position: new naver.maps.LatLng(locations[i].lat, locations[i].lng)
             });
 
-            var infoWindow = new naver.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:5px;"><b>' + '</b><br></div>'
+            var myaddress = i+1 + " " + marker.title;
+
+            let infoWindow = new naver.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:5px;"><b>' + myaddress + '</b><br></div>'
             }); // 클릭했을 때 띄워줄 정보 HTML 작성
 
-            var polyPath = new naver.maps.LatLng(locations[i].lat, locations[i].lng);
+            if(i > transValue){
+                let polyTransPath = new naver.maps.LatLng(locations[i].lat, locations[i].lng);
+                polylineTransPaths.push(polyTransPath);
+            }
+            else if(i == transValue){
+                let polyTransPath = new naver.maps.LatLng(locations[i].lat, locations[i].lng);
+                let polyPath = new naver.maps.LatLng(locations[i].lat, locations[i].lng);
+                polylineTransPaths.push(polyTransPath);
+                polylinePaths.push(polyPath);
+            }
+            else{
+                let polyPath = new naver.maps.LatLng(locations[i].lat, locations[i].lng);
+                polylinePaths.push(polyPath);
+            }
 
             markers.push(marker); // 생성한 마커를 배열에 담는다.
             infoWindows.push(infoWindow); // 생성한 정보창을 배열에 담는다.
-            polylinePaths.push(polyPath);
         }
 
 
         function getClickHandler(seq) {
 
             return function(e) {  // 마커를 클릭하는 부분
-                var marker = markers[seq], // 클릭한 마커의 시퀀스로 찾는다.
+                let marker = markers[seq], // 클릭한 마커의 시퀀스로 찾는다.
                     infoWindow = infoWindows[seq]; // 클릭한 마커의 시퀀스로 찾는다
 
                 if (infoWindow.getMap()) {
@@ -66,7 +80,7 @@
             }
         }
 
-        var polyline = new naver.maps.Polyline({
+        let polyline = new naver.maps.Polyline({
             map: map,
             path: polylinePaths,
             strokeColor: '#E51D1A',
@@ -75,12 +89,22 @@
             strokeWeight: 5
         });
 
+        let polylinetrans = new naver.maps.Polyline({
+            map: map,
+            path: polylineTransPaths,
+            strokeColor: '#1a3ce5',
+            strokeStyle: 'solid',
+            strokeOpacity: 1,
+            strokeWeight: 5
+        });
 
-        for (var i=0, ii=markers.length; i<ii; i++) {
+
+        for (let i=0, ii=markers.length; i<ii; i++) {
             console.log(markers[i] , getClickHandler(i));
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)); // 클릭한 마커 핸들러
             naver.maps.Event.addListener(markers[i], 'mouseover', getClickHandler(i));
         }
+
         /*]]>*/
     </script>
     <table id="busstationboard" class="table table-hover">

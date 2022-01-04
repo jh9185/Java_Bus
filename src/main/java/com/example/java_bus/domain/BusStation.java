@@ -29,6 +29,7 @@ public class BusStation {
     private Long length;
     private Long routeType;
     private String stStationNm;
+    private String transYn;
     private Long term;
     private Double posX;
     private Double posY;

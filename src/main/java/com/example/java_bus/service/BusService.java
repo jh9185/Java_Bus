@@ -112,6 +112,7 @@ public class BusService {
                 busStation.setStStationNm(String.valueOf(detailInfo.get("stationNm")));
                 busStation.setPosX((double) detailInfo.get("gpsX"));
                 busStation.setPosY((double) detailInfo.get("gpsY"));
+                busStation.setTransYn(String.valueOf(detailInfo.get("transYn")));
 
                 busStatinlist.add(i, busStation);
             }

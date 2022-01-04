@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="js/busRoute.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -132,15 +134,33 @@
                                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-
-                                <form th:action="@{bus/stationview}" method="get">
-                                    <input class="form-control" type="text"  name="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" />
-                                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                                <form th:action="@{/bus/stationview}" method="get">
+                                <input class="form-control" type="text"  name="busNumber" id="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" />
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                                 </form>
 
-                                <form th:action="@{/bus/numberview}" method="get">
-                                    <button class="btn btn-info" type="submit">서울 버스 번호 조회</button>
-                                </form>
+<!--                                <form th:action="@{/bus/numberview}" method="get">-->
+                                    <button class="btn btn-info" type="submit" onclick="ajaxTest()">서울 버스 번호 조회</button>
+<!--                                </form>-->
+<!--                                    <button class="btn btn-close btn-sm float-right" onclick="ajaxClose()">버스 번호 표시 닫기</button>-->
+                                <div id="busstation"></div>
+
+                                <script type="text/javascript">
+                                    function ajaxTest(){
+                                        $.ajax({
+                                            url : "/bus/numberview",
+                                            type : 'get' ,
+                                            dataType : 'text',
+                                            error : function() {
+                                                alert('통신실패!!');
+                                            },
+                                            success : function(result) {
+                                                $('#busstation').empty();
+                                                $('#busstation').html(result);
+                                            }
+                                        });
+                                    }
+                                </script>
                             </div>
                         </div>
                     </div>

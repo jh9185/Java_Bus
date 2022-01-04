@@ -5,11 +5,11 @@ import com.example.java_bus.service.BusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = {"/", "/main"})
@@ -30,5 +30,4 @@ public class MainController {
         //busservice.BusStationLoadData();
         return "bootstrap/index";
     }
-
 }
