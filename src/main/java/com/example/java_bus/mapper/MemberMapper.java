@@ -5,11 +5,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberMapper {
-    int MemberCount();
+    Integer MemberCount();
 
-    void AddMember(Member member);
+    Integer AddMember(Member member);
 
-    int  IdCheck(String memberid);
+    Integer  IdCheck(String memberId);
 
-    int  LoginCheck(Member member);
+    Integer  LoginCheck(Member member);
 }

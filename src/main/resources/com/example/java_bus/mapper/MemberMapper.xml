@@ -4,23 +4,23 @@
 <mapper namespace="com.example.java_bus.mapper.MemberMapper">
 
     <select id="MemberCount" resultType="int">
-        SELECT count(membernumber) AS cnt FROM tbl_member;
+        SELECT count(membernumber) AS cnt FROM tbl_login;
     </select>
 
-    <select id="idCheck" parameterType="string">
+    <select id="IdCheck" resultType="int" parameterType="com.example.java_bus.domain.Member">
         SELECT
             *
-        FROM tbl_member WHERE id=#{id};
+        FROM tbl_login where id=#{id};
     </select>
 
     <select id="LoginCheck" resultType="int" parameterType="com.example.java_bus.domain.Member">
         SELECT
             *
-        FROM tbl_member where id=#{id} AND password=#{password};
+        FROM tbl_login where id=#{id} AND password=#{password};
     </select>
 
     <insert id="AddMember" parameterType="com.example.java_bus.domain.Member">
-        INSERT INTO tbl_member (id, password)
+        INSERT INTO tbl_login (id, password)
         VALUES
             (#{id}, #{password});
     </insert>

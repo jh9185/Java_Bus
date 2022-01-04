@@ -19,16 +19,16 @@ public class MemberService {
     }
 
     @Transactional // 등록
-    public void AddMember(Member member) throws Exception {
-        IdCheck(member.getId());
-        memberMapper.AddMember(member);
+    public boolean AddMember(Member member) throws Exception {
+            memberMapper.AddMember(member);
+            return true;
     }
     // 가입
     // 조회
     // 탈퇴
     // 로그인 여부
-    public int IdCheck(String memberid) throws Exception {
-        int result = memberMapper.IdCheck(memberid);
+    public Integer IdCheck(String memberId) throws Exception {
+        Integer result = memberMapper.IdCheck(memberId);
         return result;
     }
 
