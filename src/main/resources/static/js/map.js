@@ -1,11 +1,11 @@
-/*<![CDATA[*/
-
-let locations = new Array();
-let markers = new Array();
-let infoWindows = new Array();
-let polylinePaths = new Array();
-let polylineTransPaths = new Array();
-let transValue = 0;
+var locations = new Array();
+var markers = new Array();
+var infoWindows = new Array();
+var polyline;
+var polylinetrans;
+var polylinePaths = new Array();
+var polylineTransPaths = new Array();
+var transValue = 0;
 
 function insertLocation(list) {
     locations.push({location: list.stStationNm, lat: list.posY, lng: list.posX});
@@ -49,4 +49,3 @@ function insertPolyline(location, index, transValue) {
         polylinePaths.push(polyPath);
     }
 }
-/*]]>*/

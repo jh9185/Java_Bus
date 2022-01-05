@@ -6,4 +6,9 @@ window.addEventListener('DOMContentLoaded', event => {
     if (datatablesSimple) {
         new simpleDatatables.DataTable(datatablesSimple);
     }
+
+    const busnumberlist = document.getElementById('busnumberlist');
+    if (busnumberlist) {
+        new simpleDatatables.DataTable(busnumberlist);
+    }
 });
