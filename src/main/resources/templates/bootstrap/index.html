@@ -66,31 +66,51 @@
                             <meta http-equiv="X-UA-Compatible" content="IE=edge">
                             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-                            <form th:action="@{/bus/stationview}" method="get">
-                            <input class="form-control" type="text"  name="busNumber" id="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" />
-                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+<!--                            <form th:action="@{/bus/stationview}" method="get">-->
+                            <form>
+                                <input class="form-control" type="text"  name="busNumber" id="busNumber" placeholder="서울 버스 번호 입력" aria-label="버스번호입력" />
+                                <button class="btn btn-primary" type="submit" onclick="ajaxStation()"><i class="fas fa-search"></i></button>
+                                <button class="btn btn-close btn-sm float-right" onclick="ajaxClose()"></button>
+                            </form>
+                            <form th:action="@{/bus/numberview}" method="get">
+                                <button class="btn btn-info" type="submit">서울 버스 번호 조회</button>
+
                             </form>
 
-<!--                                <form th:action="@{/bus/numberview}" method="get">-->
-                                <button class="btn btn-info" type="submit" onclick="ajaxTest()">서울 버스 번호 조회</button>
-<!--                                </form>-->
-<!--                                <button class="btn btn-close btn-sm float-right" onclick="Close()">버스 번호 표시 닫기</button>-->
+
+
                             <div id="busstation"></div>
 
                             <script type="text/javascript">
-                                function ajaxTest(){
+                                function ajaxNumber(){
                                     $.ajax({
-                                        url : "/bus/numberview",
+                                        url : "/bus/numberview?",
                                         type : 'get' ,
                                         dataType : 'text',
                                         error : function() {
                                             alert('통신실패!!');
                                         },
                                         success : function(result) {
-                                            $('#busstation').empty();
                                             $('#busstation').html(result);
                                         }
                                     });
+                                }
+                                function ajaxStation(){
+                                    var Number = document.getElementById("busNumber").value;
+                                    $.ajax({
+                                        url : "/bus/stationview?busNumber=" + Number,
+                                        type : 'get' ,
+                                        dataType : 'text',
+                                        error : function() {
+                                            alert('통신실패!!');
+                                        },
+                                        success : function(result) {
+                                            $('#busstation').html(result);
+                                        }
+                                    });
+                                }
+                                function ajaxClose() {
+
                                 }
                             </script>
                         </div>
