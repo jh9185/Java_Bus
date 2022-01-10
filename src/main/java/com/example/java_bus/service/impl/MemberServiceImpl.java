@@ -47,4 +47,21 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
         }
     }
+
+    public boolean loginCheck(String id, String pw) {
+        Optional<MemberVo> member = memberRepository.findByMemberId(id);
+
+        if(member.isEmpty()) {
+            return false;
+        }
+        else {
+            if(member.get().getPassword().equals(pw))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 }

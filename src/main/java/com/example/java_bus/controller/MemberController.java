@@ -9,13 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("memberTest")
 public class MemberController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -24,20 +28,20 @@ public class MemberController {
     MemberService memberService;
 
     // 모든 회원 조회
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/memberTest", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<List<MemberVo>> getAllMembers() {
         List<MemberVo> member = memberService.findAll();
         return new ResponseEntity<List<MemberVo>>(member, HttpStatus.OK);
     }
     // 회원번호로 한명의 회원 조회
-    @GetMapping(value = "/{memberNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/memberTest/{memberNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<MemberVo> getMember(@PathVariable("memberNo") Long memberId) {
         Optional<MemberVo> member = memberService.findById(memberId);
         return new ResponseEntity<MemberVo>(member.get(), HttpStatus.OK);
     }
 
     // 회원 아이디로 한명의 회원 조회
-    @PostMapping(value = "/{memberId}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/memberTest/{memberId}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<MemberVo> getMemberId(@PathVariable("memberId") String memberId) {
         //리스트 0 이면 없음
         //리스트 존재시 검사
@@ -46,29 +50,30 @@ public class MemberController {
     }
 
     // 회원번호로 회원 삭제
-    @DeleteMapping(value = "/{memberNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping(value = "/memberTest/{memberNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Void> deleteMember(@PathVariable("memberNo") Long memberNo) {
         memberService.deleteById(memberNo);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
     // 회원번호로 회원 수정(mbrNo로 회원을 찾아 Board 객체의 id, name로 수정함)
-    @PutMapping(value = "/{memberNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/memberTest/{memberNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<MemberVo> updateMember(@PathVariable("memberNo") Long memberNo, MemberVo member) {
         memberService.updateById(memberNo, member);
         return new ResponseEntity<MemberVo>(member, HttpStatus.OK);
     }
     // 회원 입력
-    @PostMapping public ResponseEntity<MemberVo> save(MemberVo member) {
+    @PostMapping(value = "/memberTest")
+    public ResponseEntity<MemberVo> save(MemberVo member) {
         return new ResponseEntity<MemberVo>(memberService.save(member), HttpStatus.OK);
     }
     // 회원 입력
-    @RequestMapping(value="/saveMember", method = RequestMethod.GET)
+    @RequestMapping(value="/memberTest/saveMember", method = RequestMethod.GET)
     public ResponseEntity<MemberVo> save(HttpServletRequest req, MemberVo member){
         return new ResponseEntity<MemberVo>(memberService.save(member), HttpStatus.OK);
     }
 
     // 회원 ID 중복 체크
-    @RequestMapping("/IdCheck")
+    @RequestMapping("/memberTest/IdCheck")
     public String ID_Check(@RequestBody String paramData) throws Exception {
         //클라이언트가 보낸 ID값
         Optional<MemberVo> member = memberService.findByMemberId(paramData);
@@ -80,4 +85,37 @@ public class MemberController {
             return "0";
         }
     }
+
+    @RequestMapping(value="/loginProcess")
+    public ModelAndView loginProcess(HttpSession session,
+                                     @RequestParam(value="id") String id,
+                                     @RequestParam(value="password") String pw) {
+
+        ModelAndView mav = new ModelAndView();
+
+        if(memberService.loginCheck(id, pw)){
+            session.setAttribute("loginCheck", true);
+            session.setAttribute("id", id);
+
+            mav.setView(new RedirectView("/"));
+
+            return mav;
+        }
+        else{
+            mav.setView(new RedirectView("/Login"));
+            return mav;
+        }
+    }
+
+    @GetMapping(value="/logoutProcess")
+    public ModelAndView logoutProcess(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        mav.setView(new RedirectView("/"));
+
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        return mav;
+    }
+
 }

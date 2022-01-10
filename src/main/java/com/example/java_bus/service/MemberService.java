@@ -12,4 +12,6 @@ public interface MemberService {
     List<MemberVo> findAll();
     void deleteById(Long memberNo);
     void updateById(Long memberNo, MemberVo member);
+
+    boolean loginCheck(String id, String pw);
 }

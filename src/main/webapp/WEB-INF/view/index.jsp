@@ -39,7 +39,14 @@
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="/Login" methods="get">Login</a></li>
+                <c:choose>
+                    <c:when test="${sessionScope.loginCheck eq true}">
+                        <li><a class="dropdown-item" href="/logoutProcess" methods="get">Logout</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a class="dropdown-item" href="/Login" methods="get">Login</a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </li>
     </ul>
@@ -63,39 +70,6 @@
 <!--                                <button class="btn btn-info" type="submit">서울 버스 번호 조회</button>-->
 <!--                            </form>-->
                             <div id="busstation"></div>
-                            <script type="text/javascript">
-                                function ajaxNumber(){
-                                    $.ajax({
-                                        url : "/bus/numberview?",
-                                        type : 'get' ,
-                                        dataType : 'text',
-                                        error : function() {
-                                            alert('통신실패!!');
-                                        },
-                                        success : function(result) {
-                                            $('#busstation').empty();
-                                            $('#busstation').html(result);
-                                        }
-                                    });
-                                }
-                                function ajaxStation(){
-                                    var Number = document.getElementById("busNumber").value;
-                                    $.ajax({
-                                        url : "/bus/stationview?busNumber=" + Number,
-                                        type : 'get' ,
-                                        dataType : 'text',
-                                        error : function() {
-                                            alert('통신실패!!');
-                                        },
-                                        success : function(result) {
-                                            $('#busstation').html(result);
-                                        }
-                                    });
-                                }
-                                function ajaxClose() {
-                                    $('#busstation').empty();
-                                }
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -166,7 +140,39 @@
 <script src="resources/js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="resources/js/datatables-simple-demo.js"></script>
-
+<script type="text/javascript">
+    function ajaxNumber(){
+        $.ajax({
+            url : "/bus/numberview?",
+            type : 'get' ,
+            dataType : 'text',
+            error : function() {
+                alert('통신실패!!');
+            },
+            success : function(result) {
+                $('#busstation').empty();
+                $('#busstation').html(result);
+            }
+        });
+    }
+    function ajaxStation(){
+        var Number = document.getElementById("busNumber").value;
+        $.ajax({
+            url : "/bus/stationview?busNumber=" + Number,
+            type : 'get' ,
+            dataType : 'text',
+            error : function() {
+                alert('통신실패!!');
+            },
+            success : function(result) {
+                $('#busstation').html(result);
+            }
+        });
+    }
+    function ajaxClose() {
+        $('#busstation').empty();
+    }
+</script>
 </body>
 
 </html>
