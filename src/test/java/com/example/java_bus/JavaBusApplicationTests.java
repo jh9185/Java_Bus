@@ -9,4 +9,5 @@ class JavaBusApplicationTests {
     @Test
     void contextLoads() {
     }
+
 }

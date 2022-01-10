@@ -1,5 +1,13 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: KJH
+  Date: 2022-01-07
+  Time: 오후 5:12
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,9 +16,8 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link href="resources/css/styles.css" rel="stylesheet" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="js/busRoute.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
@@ -27,10 +34,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="busnumberlist :${busnumberlist}">
+                <tr each="busnumberlist :${busnumberlist}">
                     <td>[[${busnumberlist.busRouteId}]]</td>
                     <td>
-                        <a th:href="@{/bus/stationview(busNumber=${busnumberlist.busRouteNm})}">
+                        <a href="@{/bus/stationview(busNumber=${busnumberlist.busRouteNm})}">
                             [[${busnumberlist.busRouteNm}]]
                         </a>
                     </td>

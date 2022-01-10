@@ -1,5 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="javatime" uri="http://sargue.net/jsptags/time" %>
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,9 +14,8 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link href="resources/css/styles.css" rel="stylesheet" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="js/busRoute.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
@@ -18,7 +23,7 @@
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" th:href="@{/}">Start Bootstrap</a>
+    <a class="navbar-brand ps-3" href="/">Start Bootstrap</a>
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
@@ -34,7 +39,7 @@
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" th:href="@{/login/}">Login</a></li>
+                <li><a class="dropdown-item" href="/Login" methods="get">Login</a></li>
             </ul>
         </li>
     </ul>
@@ -95,63 +100,60 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    서울 버스 노선 목록
-                </div>
-                <div class="card-body">
-                    <table id="busnumberlist" class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>노선ID</th>
-                            <th>버스 번호</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="busnumberlist :${busnumberlist}">
-                            <td>[[${busnumberlist.busRouteId}]]</td>
-                            <td>
-                                <a th:href="@{/bus/stationview(busNumber=${busnumberlist.busRouteNm})}">
-                                    [[${busnumberlist.busRouteNm}]]
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<%--            <div class="card mb-4">--%>
+<%--                <div class="card-header">--%>
+<%--                    <i class="fas fa-table me-1"></i>--%>
+<%--                    서울 버스 노선 목록--%>
+<%--                </div>--%>
+<%--                <div class="card-body">--%>
+<%--                    <table id="busnumberlist" class="table table-hover">--%>
+<%--                        <thead>--%>
+<%--                        <tr>--%>
+<%--                            <th>노선ID</th>--%>
+<%--                            <th>버스 번호</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <tbody>--%>
+<%--                        <tr th:each="busnumberlist :${busnumberlist}">--%>
+<%--                            <td>[[${busnumberlist.busRouteId}]]</td>--%>
+<%--                            <td>--%>
+<%--                                <a href="@{/bus/stationview(busNumber=${busnumberlist.busRouteNm})}">--%>
+<%--                                    [[${busnumberlist.busRouteNm}]]--%>
+<%--                                </a>--%>
+<%--                            </td>--%>
+<%--                        </tr>--%>
+<%--                        </tbody>--%>
+<%--                    </table>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
                     게시글 목록
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/board/upload}" method="get">
-                        <button class="btn btn-secondary btn-sm float-right" type="submit" >글쓰기</button>
-                    </form>
+                    <a href="/boardUpload"><button class="btn btn-secondary btn-sm float-right" type="button">글쓰기</button></a>
+
                     <table id="datatablesSimple" class="table table-hover">
                         <thead>
                         <tr>
                             <th>글번호</th>
                             <th>작성자</th>
                             <th>제목</th>
-                            <th>조회수</th>
+                            <th>내용</th>
                             <th>글 작성시간</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="list :${list}">
-                            <td>[[${list.boardId}]]</td>
-                            <td>[[${list.name}]]</td>
-                            <td>
-                                <a th:href="@{/board/view(boardId=${list.boardId})}">
-                                    [[${list.title}]]
-                                </a>
-                            </td>
-                            <td>[[${list.read}]]</td>
-                            <td th:text="${#temporals.format(list.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                        </tr>
+                        <c:forEach items="${list}" var="list" varStatus="i">
+                            <tr>
+                                <td>${list.id}</td>
+                                <td>${list.title}</td>
+                                <td>${list.content}</td>
+                                <td>${list.name}</td>
+                                <td><javatime:format pattern="yyyy-MM-dd HH:mm:ss" value="${list.regdate}"/></td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -161,9 +163,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="/js/scripts.js"></script>
+<script src="resources/js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="/js/datatables-simple-demo.js"></script>
+<script src="resources/js/datatables-simple-demo.js"></script>
 
 </body>
 
