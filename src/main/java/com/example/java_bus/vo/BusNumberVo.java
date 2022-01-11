@@ -14,13 +14,13 @@ import javax.persistence.GenerationType;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name="bus_number")
+@Entity(name="bus")
 public class BusNumberVo {
     @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long busRouteId;
-    private String busName;
+    private Long routeId;
+    private String name;
 }

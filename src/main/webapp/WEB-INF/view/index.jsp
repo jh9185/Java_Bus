@@ -24,6 +24,12 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="/">Start Bootstrap</a>
+    <c:choose>
+        <c:when test="${sessionScope.loginCheck eq true}">
+            <a class="navbar-brand ps-3"><c:out value="${sessionScope.memberId}"></c:out> 님 로그인 상태입니다.</a>
+        </c:when>
+    </c:choose>
+
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
@@ -95,14 +101,18 @@
                     <table id="busnumberlist" class="table table-hover">
                         <thead>
                         <tr>
+                            <th>DB ID</th>
                             <th>노선ID</th>
                             <th>버스 번호</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${busnumberlist}" var="busnumberlist" varStatus="i">
-                            <td>[[${busnumberlist.busRouteId}]]</td>
-                            <td>[[${busnumberlist.busRouteNm}]]</td>
+                            <tr>
+                                <td>${busnumberlist.id}</td>
+                                <td>${busnumberlist.routeId}</td>
+                                <td>${busnumberlist.name}</td>
+                            </tr>
                         </c:forEach>
                         </tbody>
                     </table>

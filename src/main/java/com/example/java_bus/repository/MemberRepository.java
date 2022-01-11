@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<MemberVo, Long>{
     public List<MemberVo> findById(String memberNo);
     public Optional<MemberVo> findByMemberId(String memberId);
+
     // like검색도 가능
 //    public List<MemberVo> findByNameLike(String keyword);
 }

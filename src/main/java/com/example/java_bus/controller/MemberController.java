@@ -95,7 +95,7 @@ public class MemberController {
 
         if(memberService.loginCheck(id, pw)){
             session.setAttribute("loginCheck", true);
-            session.setAttribute("id", id);
+            session.setAttribute("memberId", id);
 
             mav.setView(new RedirectView("/"));
 
