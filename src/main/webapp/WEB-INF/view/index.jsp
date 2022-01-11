@@ -74,32 +74,40 @@
                     </div>
                 </div>
             </div>
-<%--            <div class="card mb-4">--%>
-<%--                <div class="card-header">--%>
-<%--                    <i class="fas fa-table me-1"></i>--%>
-<%--                    서울 버스 노선 목록--%>
-<%--                </div>--%>
-<%--                <div class="card-body">--%>
-<%--                    <table id="busnumberlist" class="table table-hover">--%>
-<%--                        <thead>--%>
-<%--                        <tr>--%>
-<%--                            <th>노선ID</th>--%>
-<%--                            <th>버스 번호</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                        <tbody>--%>
-<%--                        <tr th:each="busnumberlist :${busnumberlist}">--%>
-<%--                            <td>[[${busnumberlist.busRouteId}]]</td>--%>
-<%--                            <td>--%>
-<%--                                <a href="@{/bus/stationview(busNumber=${busnumberlist.busRouteNm})}">--%>
-<%--                                    [[${busnumberlist.busRouteNm}]]--%>
-<%--                                </a>--%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
-<%--                        </tbody>--%>
-<%--                    </table>--%>
-<%--                </div>--%>
-<%--            </div>--%>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    서울 버스 노선 목록
+                </div>
+                <div class="card-body">
+                    <div>
+                        <c:choose>
+                            <c:when test="${sessionScope.loginCheck eq true}">
+                                <form>
+                                        <%--                                file: <input type="file" name="file"><br>--%>
+                                        <%--                                <input type="submit" value="file upload">--%>
+                                    <a href="/busNumberFileUpload"><button class="btn btn-secondary btn-sm float-right" type="button">최신 버전 업데이트</button></a>
+
+                                </form>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                    <table id="busnumberlist" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>노선ID</th>
+                            <th>버스 번호</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${busnumberlist}" var="busnumberlist" varStatus="i">
+                            <td>[[${busnumberlist.busRouteId}]]</td>
+                            <td>[[${busnumberlist.busRouteNm}]]</td>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>

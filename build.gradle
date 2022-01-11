@@ -20,10 +20,15 @@ repositories {
 }
 
 dependencies {
+    compileOnly fileTree(dir: 'libs/jar', include: ['*.jar'])
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'net.sargue:java-time-jsptags:1.1.4'
+
+    implementation 'org.json:json:20211205'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
@@ -31,8 +36,9 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-    implementation 'javax.servlet:jstl'
+    compileOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    compileOnly 'javax.servlet:jstl'
+
 
 }
 
