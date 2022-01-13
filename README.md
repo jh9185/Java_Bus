@@ -10,3 +10,10 @@
   - 서울 공공데이터( 노선정보조회, 버스도착정보조회 )
   - html 템플릿 https://startbootstrap.com/template/sb-admin<br>
   - 기간 : 2021.12 ~ (진행중)
+
+  - v2 update 
+    1. 프로젝트 구조 변경
+        DB : Xml mapper -> JPA 형태로 변경
+        View : HTML -> JSP, JS 형태로 변경
+    
+    2. 로그인에 따른 페이지 표현 기능 추가
