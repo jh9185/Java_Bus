@@ -12,7 +12,7 @@
   - 기간 : 2021.12 ~ (진행중)
 
   - v2 update 
-    1. 프로젝트 구조 변경
+    1. 프로젝트 구조 변경<br>
         DB : Xml mapper -> JPA 형태로 변경<br>
         View : HTML -> JSP, JS 형태로 변경<br>
     
