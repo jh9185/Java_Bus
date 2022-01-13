@@ -13,7 +13,7 @@
 
   - v2 update 
     1. 프로젝트 구조 변경
-        DB : Xml mapper -> JPA 형태로 변경
-        View : HTML -> JSP, JS 형태로 변경
+        DB : Xml mapper -> JPA 형태로 변경<br>
+        View : HTML -> JSP, JS 형태로 변경<br>
     
-    2. 로그인에 따른 페이지 표현 기능 추가
+    2. 로그인에 따른 페이지 표현 기능 추가<br>
