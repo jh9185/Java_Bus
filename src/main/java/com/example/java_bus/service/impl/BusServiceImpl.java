@@ -6,6 +6,7 @@ import com.example.java_bus.service.BusService;
 import com.example.java_bus.vo.BusNumberVo;
 import com.example.java_bus.vo.BusStationVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ public class BusServiceImpl implements BusService {
 
     @Autowired
     private BusRepository busRepository;
+
+    public List<BusNumberVo> saveAll(List<BusNumberVo> busNumbers) {
+        busRepository.saveAll(busNumbers);
+        return busNumbers;
+    }
 
     public BusNumberVo save(BusNumberVo busNumber) {
         busRepository.save(busNumber);
@@ -43,6 +49,7 @@ public class BusServiceImpl implements BusService {
         return bus;
     }
 
+    public void deleteAll() { busRepository.deleteAll(); }
     public void deleteById(Long busNo) {
         busRepository.deleteById(busNo);
     }
@@ -63,5 +70,9 @@ public class BusServiceImpl implements BusService {
             e.get().setName(busInfo.getName());
             busRepository.save(e.get());
         }
+    }
+
+    public void resetId(){
+        busRepository.resetId();
     }
 }

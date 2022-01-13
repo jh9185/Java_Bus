@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
         if (e.isPresent()) {
             e.get().setMemberId(member.getMemberId());
             e.get().setPassword(member.getPassword());
-            memberRepository.save(member);
+            memberRepository.save(e.get());
         }
     }
 

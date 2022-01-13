@@ -92,9 +92,10 @@
                                 <form>
                                         <%--                                file: <input type="file" name="file"><br>--%>
                                         <%--                                <input type="submit" value="file upload">--%>
-                                    <a href="/busNumberFileUpload"><button class="btn btn-secondary btn-sm float-right" type="button">최신 버전 업데이트</button></a>
-
+                                    <a href="/busNumberFileUpload"><button class="btn btn-primary btn-sm float-right" type="button">최신 버전 업데이트</button></a>
+                                    <a href="/busNumberAlldelete"><button class="btn btn-secondary btn-sm float-right" type="button">모든 정보 지우기</button></a>
                                 </form>
+
                             </c:when>
                         </c:choose>
                     </div>

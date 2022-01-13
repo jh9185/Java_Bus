@@ -39,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
             e.get().setName(board.getName());
             e.get().setContent(board.getContent());
             e.get().setRegdate(board.getRegdate());
-            boardRepository.save(board);
+            boardRepository.save(e.get());
         }
     }
 }

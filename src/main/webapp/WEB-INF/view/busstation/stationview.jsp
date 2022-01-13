@@ -6,25 +6,29 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.example.java_bus.vo.BusStationVo" %>
+<%@ page import="java.util.List" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
-    <link href="resources/css/styles.css" rel="stylesheet" >
+<%--    <link href="resources/css/styles.css" rel="stylesheet" >--%>
+<%--    <script src="/js/map.js"></script>--%>
     <title>버스 정류장 조회</title>
 </head>
 <body>
 <div class="container">
     <div id="map" style="width:100%;height:400px;">
     </div>
-    <script src="/js/map.js"></script>
     <script inline="javascript">
-        /*<![CDATA[*/
-        list = [[${busstationlist}]];
+        //<![CDATA[
+        list = ${busStationVoList};
 
         map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng([[${busstationscenter.y}]], [[${busstationscenter.x}]]),
+            <%--center: new naver.maps.LatLng([[${busstationscenter.y}]], [[${busstationscenter.x}]]),--%>
+            center: new naver.maps.LatLng(38.125, 126.222),
             zoom: 12
         });
 
@@ -80,7 +84,7 @@
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)); // 클릭한 마커 핸들러
             naver.maps.Event.addListener(markers[i], 'mouseover', getClickHandler(i));
         }
-        /*]]>*/
+        //]]>
     </script>
     <table id="busstationboard" class="table table-hover">
         <thead>
@@ -94,16 +98,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="busstationlist :${busstationlist}">
-            <td>[[${busstationlist.busRouteId}]]</td>
-            <td>[[${busstationlist.busRouteNm}]]</td>
-            <td>[[${busstationlist.number}]]</td>
-            <td>[[${busstationlist.StStationNm}]]</td>
-            <td>[[${busstationlist.arrmsg}]]<br>
-                [[${busstationlist.arrmsg2}]]</td>
-            <td>[[${busstationlist.plainNo1}]]<br>
-                [[${busstationlist.plainNo2}]]</td>
-        </tr>
+        <c:forEach items="${busStationVoList}" var="busStationVo" varStatus="i">
+            <tr>
+                <td><c:out value="${busStationVo.busRouteId}"/></td>
+                <td><c:out value="${busStationVo.busRouteNm}"/></td>
+                <td>${i.count}</td>
+                <td><c:out value="${busStationVo.stStationNm}"/></td>
+                <td><c:out value="${busStationVo.arrmsg}"/><br>
+                    <c:out value="${busStationVo.arrmsg2}"/></td>
+                <td><c:out value="${busStationVo.plainNo1}"/><br>
+                    <c:out value="${busStationVo.plainNo2}"/>
+                </td>
+        </c:forEach>
         </tbody>
     </table>
 </div>
