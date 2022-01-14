@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/89440013/147914547-52885617-5ea1-4582-bbf7-74f25b485182.png)
+![image](https://user-images.githubusercontent.com/89440013/149460452-c702efb8-254f-4e33-a830-48de9b4f5dde.png)
 
 <h4>버스도착정보프로젝트(Spring)<h4><br>
 
@@ -17,3 +17,5 @@
         View : HTML -> JSP, JS 형태로 변경<br>
     
     2. 로그인에 따른 페이지 표현 기능 추가<br>
+  
+    3. 버스 노선 경로 표시 수정
