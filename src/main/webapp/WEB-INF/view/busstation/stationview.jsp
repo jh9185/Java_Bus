@@ -9,13 +9,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.example.java_bus.vo.BusStationVo" %>
 <%@ page import="java.util.List" %>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t8y7kns73m"></script>
 <%--    <link href="resources/css/styles.css" rel="stylesheet" >--%>
-<%--    <script src="/js/map.js"></script>--%>
+    <script type="text/javascript" src="../../../resources/static/js/map.js" ></script>
     <title>버스 정류장 조회</title>
 </head>
 <body>
@@ -23,28 +24,46 @@
     <div id="map" style="width:100%;height:400px;">
     </div>
     <script inline="javascript">
-        //<![CDATA[
-        list = ${busStationVoList};
+
+        var list = new Array();
+        var stationInfo = new Array();
+
+        <c:forEach items="${busStationPathList}" var="busStationPath" varStatus="i">
+            insertPolyline(${busStationPath.y}, ${busStationPath.x});
+        </c:forEach>
+
+        centerX = centerX / pathCount;
+        centerY = centerY / pathCount;
+
+        <c:forEach items="${busStationVoList}" var="busStationVo" varStatus="i">
+            stationInfo.push("${i.count}");
+            stationInfo.push("${busStationVo.stStationNm}");
+            stationInfo.push("${busStationVo.posX}");
+            stationInfo.push("${busStationVo.posY}");
+            stationInfo.push("${busStationVo.transYn}");
+
+            list.push(stationInfo);
+            stationInfo = [];
+        </c:forEach>
 
         map = new naver.maps.Map('map', {
-            <%--center: new naver.maps.LatLng([[${busstationscenter.y}]], [[${busstationscenter.x}]]),--%>
-            center: new naver.maps.LatLng(38.125, 126.222),
-            zoom: 12
+            center: new naver.maps.LatLng(centerX, centerY),
+            zoom: 14
         });
 
         for (let j = 0; j < list.length; j++) {
             insertLocation(list[j]);
 
-            if(list[j].transYn == "Y")
+            if(list[j][4] == "Y")
                 transValue = j;
         }
-
 
         for (let i = 0; i < locations.length; i++) {
             insertMarker(locations[i]);
             insertInfoWindow(locations[i], i);
-            insertPolyline(locations[i], i, transValue);
+
         }
+
 
         function getClickHandler(seq) {
 
@@ -63,28 +82,17 @@
         polyline = new naver.maps.Polyline({
             map: map,
             path: polylinePaths,
-            strokeColor: '#E51D1A',
+            strokeColor: '#996ac5',
             strokeStyle: 'solid',
             strokeOpacity: 1,
-            strokeWeight: 5
+            strokeWeight: 4
         });
-
-        polylinetrans = new naver.maps.Polyline({
-            map: map,
-            path: polylineTransPaths,
-            strokeColor: '#1a3ce5',
-            strokeStyle: 'solid',
-            strokeOpacity: 1,
-            strokeWeight: 5
-        });
-
 
         for (let i=0, ii=markers.length; i<ii; i++) {
             console.log(markers[i] , getClickHandler(i));
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)); // 클릭한 마커 핸들러
             naver.maps.Event.addListener(markers[i], 'mouseover', getClickHandler(i));
         }
-        //]]>
     </script>
     <table id="busstationboard" class="table table-hover">
         <thead>
