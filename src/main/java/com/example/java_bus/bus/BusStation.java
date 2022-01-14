@@ -5,13 +5,9 @@ import org.json.XML;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -104,7 +100,7 @@ public class BusStation {
                 busStationVo.setStStationNm((String) detailInfo.get("stationNm"));
                 busStationVo.setPosX((Double) detailInfo.get("gpsX"));
                 busStationVo.setPosY((Double) detailInfo.get("gpsY"));
-
+                busStationVo.setTransYn((String) detailInfo.get("transYn"));
                 busStationVoList.add(busStationVo);
             }
 
@@ -180,7 +176,60 @@ public class BusStation {
         return BusStationVos;
     }
 
+    public List<Point2D> BusStationLoadPathData(Long busRouteId) {
+        List<Point2D> pathPointList = new ArrayList<Point2D>();
+        try {
+            StringBuilder urlBuilder = new StringBuilder("http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?" +
+                    "serviceKey=crWr3d38ilIuwdcULZmazg8UNnUS%2B9MEXSS1KKyPvE%2BuYkGBfR6HKTKpMSTEw3i03ISVwG59bJai7JDasd4%2BIw%3D%3D");
+            urlBuilder.append("&" + URLEncoder.encode("busRouteId", "UTF-8") + "=" + busRouteId.toString()); /**/
+            URL url = new URL(urlBuilder.toString());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+            System.out.println("Response code: " + conn.getResponseCode());
+            BufferedReader rd;
+            if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            conn.disconnect();
+            //Connect check log
+            //System.out.println(sb.toString());
 
+            org.json.JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
+            String xmlJSONObjString = xmlJSONObj.toString();
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(xmlJSONObjString);
+            JSONObject busStationInfoResult = (JSONObject)jsonObject.get("ServiceResult");
+            JSONObject busStationInfo = (JSONObject)busStationInfoResult.get("msgBody");
+
+            JSONArray itemList = (JSONArray)busStationInfo.get("itemList");
+
+            for (int i =0; i<itemList.size(); i++){
+                Point2D pointPath = new Point2D.Double();
+
+                JSONObject detailInfo = (JSONObject)itemList.get(i);
+//                System.out.println("위치 x  : " + detailInfo.get("gpsX"));
+//                System.out.println("위치 y  : " + detailInfo.get("gpsY"));
+                 pointPath.setLocation((Double) detailInfo.get("gpsX"), (Double) detailInfo.get("gpsY"));
+
+                 pathPointList.add(pointPath);
+            }
+
+            return pathPointList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pathPointList;
+    }
 //
 //    // 버스 정류장 가져오기
 //    public List<BusStation> getBusStationList(Long busRouteId) throws IOException {

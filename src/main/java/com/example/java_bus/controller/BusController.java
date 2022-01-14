@@ -5,11 +5,9 @@ import com.example.java_bus.bus.BusStation;
 import com.example.java_bus.service.BusService;
 import com.example.java_bus.vo.BusNumberVo;
 import com.example.java_bus.vo.BusStationVo;
-import org.apache.xmlbeans.impl.xpath.XQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +39,19 @@ public class BusController {
 
     @GetMapping("/busNumberFileUpload")
     public String UploadBusNumber() throws IOException {
-        busService.deleteAll();
-        busService.resetId();
+        List<BusNumberVo> savebusNumberVoList = new ArrayList<BusNumberVo>();
+        savebusNumberVoList = busService.findAll();
+
+        if(savebusNumberVoList.size() != 0) {
+            busService.deleteAll();
+            busService.resetId();
+        }
+        else{
+            savebusNumberVoList.clear();
+        }
 
         BusNumber busNumber = new BusNumber();
-        List<BusNumberVo> savebusNumberVoList = busNumber.readBusNumber();
+        savebusNumberVoList = busNumber.readBusNumber();
         Optional<BusNumberVo> findbusNumberVo;
 
         if(savebusNumberVoList.size() != 0) {
@@ -74,11 +81,15 @@ public class BusController {
     public String viewMap(Model model, @PathVariable("busName") String busName) throws IOException {
         Optional<BusNumberVo> busNumberVo = busService.findByName(busName);
         BusStation busStation = new BusStation();
+        List<Point2D> busStationPathList = new ArrayList<Point2D>();
         List<BusStationVo> busStationVoList = new ArrayList<BusStationVo>();
         busStationVoList = busStation.busStationLoadData(busNumberVo.get().getRouteId());
         busStationVoList = busStation.BusStationLoadArriveData(busStationVoList);
 
+        busStationPathList = busStation.BusStationLoadPathData(busNumberVo.get().getRouteId());
+
         model.addAttribute("busStationVoList", busStationVoList);
+        model.addAttribute("busStationPathList", busStationPathList);
 
         return "/busstation/stationview";
     }
