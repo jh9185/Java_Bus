@@ -1,7 +1,9 @@
 package com.example.java_bus.controller;
 
 import com.example.java_bus.bus.BusNumber;
+import com.example.java_bus.bus.BusPos;
 import com.example.java_bus.bus.BusStation;
+import com.example.java_bus.bus.VehId;
 import com.example.java_bus.service.BusService;
 import com.example.java_bus.vo.BusNumberVo;
 import com.example.java_bus.vo.BusStationVo;
@@ -25,8 +27,12 @@ import java.util.Optional;
 public class BusController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    BusStation busStation = new BusStation();
+    BusPos busPos = new BusPos();
+
     @Autowired
     private BusService busService;
+
 
 
     @GetMapping("/busNumberAlldelete")
@@ -79,17 +85,19 @@ public class BusController {
 
     @RequestMapping("/busstation/stationview/{busName}")
     public String viewMap(Model model, @PathVariable("busName") String busName) throws IOException {
+        //차량 DB 검색
         Optional<BusNumberVo> busNumberVo = busService.findByName(busName);
-        BusStation busStation = new BusStation();
-        List<Point2D> busStationPathList = new ArrayList<Point2D>();
-        List<BusStationVo> busStationVoList = new ArrayList<BusStationVo>();
-        busStationVoList = busStation.busStationLoadData(busNumberVo.get().getRouteId());
-        busStationVoList = busStation.BusStationLoadArriveData(busStationVoList);
+        List<Point2D> busStationPathList;
+        List<BusStationVo> busStationVoList;
+        List<VehId> vehIdList;
+        busStationVoList = busStation.busStationLoadData(busNumberVo.get().getBusrouteId());
+        busStation.BusStationLoadArriveData(busStationVoList);
 
-        busStationPathList = busStation.BusStationLoadPathData(busNumberVo.get().getRouteId());
-
+        busStationPathList = busStation.BusStationLoadPathData(busNumberVo.get().getBusrouteId());
+        vehIdList = busPos.BusArriveLoadData(busNumberVo.get().getBusrouteId());
         model.addAttribute("busStationVoList", busStationVoList);
         model.addAttribute("busStationPathList", busStationPathList);
+        model.addAttribute("busArriveList", vehIdList);
 
         return "/busstation/stationview";
     }

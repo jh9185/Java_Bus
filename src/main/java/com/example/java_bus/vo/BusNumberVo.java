@@ -21,6 +21,6 @@ public class BusNumberVo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long routeId;
+    private Long busrouteId;
     private String name;
 }

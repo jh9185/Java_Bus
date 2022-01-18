@@ -111,7 +111,7 @@
                         <c:forEach items="${busnumberlist}" var="busnumberlist" varStatus="i">
                             <tr>
                                 <td>${busnumberlist.id}</td>
-                                <td>${busnumberlist.routeId}</td>
+                                <td>${busnumberlist.busrouteId}</td>
                                 <td>${busnumberlist.name}</td>
                             </tr>
                         </c:forEach>

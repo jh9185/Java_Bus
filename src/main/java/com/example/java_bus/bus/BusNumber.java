@@ -68,7 +68,7 @@ public class BusNumber {
                         switch(columnindex){
                             case 0:
 //                                busnumber.setBusRouteId(Long.valueOf(value));
-                                busNumberVo.setRouteId(Long.valueOf(value));
+                                busNumberVo.setBusrouteId(Long.valueOf(value));
                                 break;
                             case 1:
 //                                busnumber.setBusRouteNm(value);

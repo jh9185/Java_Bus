@@ -28,6 +28,9 @@
         var list = new Array();
         var stationInfo = new Array();
 
+        initCount();
+
+        //지도 표시 폴리라인
         <c:forEach items="${busStationPathList}" var="busStationPath" varStatus="i">
             insertPolyline(${busStationPath.y}, ${busStationPath.x});
         </c:forEach>
@@ -61,23 +64,15 @@
         for (let i = 0; i < locations.length; i++) {
             insertMarker(locations[i]);
             insertInfoWindow(locations[i], i);
-
         }
 
 
-        function getClickHandler(seq) {
+        //지도 표시 버스 위치
+        <c:forEach items="${busArriveList}" var="busArrive" varStatus="i">
+            insertBusMarker(${busArrive.posY}, ${busArrive.posX});
+            insertBusinfoWindows('${busArrive.plainNo}');
+        </c:forEach>
 
-            return function(e) {  // 마커를 클릭하는 부분
-                let marker = markers[seq], // 클릭한 마커의 시퀀스로 찾는다.
-                    infoWindow = infoWindows[seq]; // 클릭한 마커의 시퀀스로 찾는다
-
-                if (infoWindow.getMap()) {
-                    infoWindow.close();
-                } else {
-                    infoWindow.open(map, marker); // 표출
-                }
-            }
-        }
 
         polyline = new naver.maps.Polyline({
             map: map,
@@ -89,15 +84,20 @@
         });
 
         for (let i=0, ii=markers.length; i<ii; i++) {
-            console.log(markers[i] , getClickHandler(i));
+            // console.log(markers[i] , getClickHandler(i));
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)); // 클릭한 마커 핸들러
             naver.maps.Event.addListener(markers[i], 'mouseover', getClickHandler(i));
+        }
+        for (let i=0, ii=busmarkers.length; i<ii; i++) {
+            console.log(busmarkers[i] , getClickBusHandler(i));
+            naver.maps.Event.addListener(busmarkers[i], 'click', getClickBusHandler(i)); // 클릭한 마커 핸들러
+            naver.maps.Event.addListener(busmarkers[i], 'mouseover', getClickBusHandler(i));
         }
     </script>
     <table id="busstationboard" class="table table-hover">
         <thead>
         <tr>
-            <th>버스 ID</th>
+            <th>노선 ID</th>
             <th>버스 번호</th>
             <th>정류장 번호</th>
             <th>정류장 이름</th>

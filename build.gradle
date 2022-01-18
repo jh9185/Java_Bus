@@ -31,7 +31,9 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//    개발용
     runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -44,4 +46,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+bootJar{
+    archiveFileName = 'java_bus.jar'
+    archiveVersion = "0.0.0"
+}
+
+bootWar {
+    archiveName("java_bus.war")
 }

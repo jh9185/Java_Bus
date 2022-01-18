@@ -1,12 +1,9 @@
 package com.example.java_bus.service.impl;
 
-import com.example.java_bus.bus.BusNumber;
 import com.example.java_bus.repository.BusRepository;
 import com.example.java_bus.service.BusService;
 import com.example.java_bus.vo.BusNumberVo;
-import com.example.java_bus.vo.BusStationVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,8 +36,8 @@ public class BusServiceImpl implements BusService {
         return bus;
     }
 
-    public Optional<BusNumberVo> findByrouteId(Long routeId) {
-        Optional<BusNumberVo> bus = busRepository.findByrouteId(routeId);
+    public Optional<BusNumberVo> findByrouteId(Long busrouteId) {
+        Optional<BusNumberVo> bus = busRepository.findBybusrouteId(busrouteId);
         return bus;
     }
 
@@ -57,16 +54,16 @@ public class BusServiceImpl implements BusService {
     public void updateById(Long busNo, BusNumberVo busInfo) {
         Optional<BusNumberVo> e = busRepository.findById(busNo);
         if (e.isPresent()) {
-            e.get().setRouteId(busInfo.getRouteId());
+            e.get().setBusrouteId(busInfo.getBusrouteId());
             e.get().setName(busInfo.getName());
             busRepository.save(busInfo);
         }
     }
 
-    public void updateByrouteId(Long routeId, BusNumberVo busInfo) {
-        Optional<BusNumberVo> e = busRepository.findByrouteId(routeId);
+    public void updateByrouteId(Long busrouteId, BusNumberVo busInfo) {
+        Optional<BusNumberVo> e = busRepository.findBybusrouteId(busrouteId);
         if (e.isPresent()) {
-            e.get().setRouteId(busInfo.getRouteId());
+            e.get().setBusrouteId(busInfo.getBusrouteId());
             e.get().setName(busInfo.getName());
             busRepository.save(e.get());
         }

@@ -8,13 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
@@ -87,23 +86,18 @@ public class MemberController {
     }
 
     @RequestMapping(value="/loginProcess")
-    public ModelAndView loginProcess(HttpSession session,
+    public String loginProcess(HttpSession session, Model model,
                                      @RequestParam(value="id") String id,
                                      @RequestParam(value="password") String pw) {
-
-        ModelAndView mav = new ModelAndView();
 
         if(memberService.loginCheck(id, pw)){
             session.setAttribute("loginCheck", true);
             session.setAttribute("memberId", id);
 
-            mav.setView(new RedirectView("/"));
-
-            return mav;
+            return "<script>alert('로그인 성공');location.href='/'</script>";
         }
         else{
-            mav.setView(new RedirectView("/Login"));
-            return mav;
+            return "<script>alert('로그인 실패! 아이디 또는 비밀번호를 확인해주세요.');location.href='/Login'</script>";
         }
     }
 
