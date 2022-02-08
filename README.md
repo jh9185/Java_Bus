@@ -2,6 +2,10 @@
 
 <h4>버스도착정보프로젝트(Spring)<h4><br>
 
+  <h5>현재 AWS_TEST 프로젝트와 병합하여 진행하고 있습니다.<h5><br>
+  <h5> http://ec2-52-79-72-206.ap-northeast-2.compute.amazonaws.com/ 를 참조해주세요. <h5>
+  
+  
   - Studio - Intellij 2021.03<br>
   - jdk-17.0.1<br>
   - Java Spring, Gradle<br>
@@ -19,3 +23,5 @@
     2. 로그인에 따른 페이지 표현 기능 추가<br>
   
     3. 버스 노선 경로 표시 수정
+
+  
