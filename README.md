@@ -8,11 +8,12 @@
   
   - Studio - Intellij 2021.03<br>
   - jdk-17.0.1<br>
-  - Java Spring, Gradle<br>
-  - h2, jdbc, lombok, thymeleaf<br>
+  - Java, Spring-boot, Gradle<br>
+  - h2, jdbc, lombok, mustache<br>
+  - AWS, Oauth2 ( 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 <이동욱> )<br>
   - naver map api<br>
   - 서울 공공데이터( 노선정보조회, 버스도착정보조회 )
-  - html 템플릿 https://startbootstrap.com/template/sb-admin<br>
+  - css https://startbootstrap.com/template/sb-admin<br>
   - 기간 : 2021.12 ~ (진행중)
 
   - v2 update 
@@ -24,4 +25,7 @@
   
     3. 버스 노선 경로 표시 수정
 
+    4. Oauth2를 이용한 로그인 기능 추가
+    
+    5. 노선 ID 즐겨찾기 기능 추가
   
